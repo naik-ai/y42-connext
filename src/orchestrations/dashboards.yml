@@ -1,0 +1,10 @@
+version: 2
+
+orchestrations:
+  - name: dashboards
+    config:
+      enabled: true
+      command: y42 build --select tag:dashboard
+      cron: 0/15 * 1/1 * *
+      y42:
+        apiVersion: v1

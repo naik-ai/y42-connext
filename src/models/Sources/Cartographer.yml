@@ -1,0 +1,1787 @@
+version: 2
+
+sources:
+  - name: Cartographer
+    config:
+      y42_source:
+        type: source-postgres
+        connection: carto
+      y42:
+        apiVersion: v2
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    tables:
+      - name: public_asset_balances
+        config:
+          y42_table:
+            import: asset_balances
+            columns:
+              - router_address
+              - balance
+              - removed
+              - supplied
+              - asset_domain
+              - asset_canonical_id
+              - fees_earned
+              - locked
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key:
+              - - asset_canonical_id
+              - - asset_domain
+              - - router_address
+        columns:
+          - name: asset_canonical_id
+            data_type: STRING
+          - name: asset_domain
+            data_type: STRING
+          - name: balance
+            data_type: FLOAT
+          - name: fees_earned
+            data_type: FLOAT
+          - name: locked
+            data_type: FLOAT
+          - name: removed
+            data_type: FLOAT
+          - name: router_address
+            data_type: STRING
+          - name: supplied
+            data_type: FLOAT
+        tags:
+          - liquidity
+      - name: public_asset_prices
+        config:
+          y42_table:
+            import: asset_prices
+            columns:
+              - price
+              - canonical_id
+              - id
+              - canonical_domain
+              - timestamp
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - id
+            source_defined_primary_key:
+              - - id
+        columns:
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: id
+            data_type: INTEGER
+          - name: price
+            data_type: FLOAT
+          - name: timestamp
+            data_type: INTEGER
+        tags:
+          - liquidity
+      - name: public_assets
+        config:
+          y42_table:
+            import: assets
+            columns:
+              - adopted_decimal
+              - domain
+              - canonical_id
+              - id
+              - decimal
+              - canonical_domain
+              - local
+              - adopted
+              - key
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key:
+              - - canonical_id
+              - - domain
+        columns:
+          - name: adopted
+            data_type: STRING
+          - name: adopted_decimal
+            data_type: FLOAT
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: decimal
+            data_type: FLOAT
+          - name: domain
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: key
+            data_type: STRING
+          - name: local
+            data_type: STRING
+        tags:
+          - liquidity
+      - name: public_daily_router_tvl
+        config:
+          y42_table:
+            import: daily_router_tvl
+            columns:
+              - router
+              - balance
+              - domain
+              - id
+              - asset
+              - day
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - day
+            source_defined_primary_key:
+              - - id
+        columns:
+          - name: asset
+            data_type: STRING
+          - name: balance
+            data_type: STRING
+          - name: day
+            data_type: DATE
+          - name: domain
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: router
+            data_type: STRING
+      - name: public_daily_transfer_volume
+        config:
+          y42_table:
+            import: daily_transfer_volume
+            columns:
+              - volume
+              - router
+              - origin_chain
+              - destination_chain
+              - avg_price
+              - id
+              - transfer_date
+              - asset
+              - usd_volume
+              - status
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key: []
+        columns:
+          - name: asset
+            data_type: STRING
+          - name: avg_price
+            data_type: FLOAT
+          - name: destination_chain
+            data_type: STRING
+          - name: id
+            data_type: INTEGER
+          - name: origin_chain
+            data_type: STRING
+          - name: router
+            data_type: STRING
+          - name: status
+            data_type: STRING
+          - name: transfer_date
+            data_type: DATE
+          - name: usd_volume
+            data_type: FLOAT
+          - name: volume
+            data_type: FLOAT
+        tags:
+          - liquidity
+      - name: public_router_liquidity
+        config:
+          y42_table:
+            import: router_liquidity
+            columns:
+              - total_balance
+              - total_removed_usd
+              - total_balance_usd
+              - total_locked_usd
+              - avg_usd_price
+              - domain
+              - total_locked
+              - total_supplied_usd
+              - total_removed
+              - total_supplied
+              - local
+              - adopted
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key: []
+        columns:
+          - name: adopted
+            data_type: STRING
+          - name: avg_usd_price
+            data_type: FLOAT
+          - name: domain
+            data_type: STRING
+          - name: local
+            data_type: STRING
+          - name: total_balance
+            data_type: FLOAT
+          - name: total_balance_usd
+            data_type: FLOAT
+          - name: total_locked
+            data_type: FLOAT
+          - name: total_locked_usd
+            data_type: FLOAT
+          - name: total_removed
+            data_type: FLOAT
+          - name: total_removed_usd
+            data_type: FLOAT
+          - name: total_supplied
+            data_type: FLOAT
+          - name: total_supplied_usd
+            data_type: FLOAT
+      - name: public_router_liquidity_events
+        config:
+          y42_table:
+            import: router_liquidity_events
+            columns:
+              - router
+              - amount
+              - balance
+              - domain
+              - block_number
+              - id
+              - event
+              - asset
+              - nonce
+              - transaction_hash
+              - timestamp
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - timestamp
+            source_defined_primary_key:
+              - - id
+        columns:
+          - name: amount
+            data_type: FLOAT
+          - name: asset
+            data_type: STRING
+          - name: balance
+            data_type: FLOAT
+          - name: block_number
+            data_type: INTEGER
+          - name: domain
+            data_type: STRING
+          - name: event
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: nonce
+            data_type: FLOAT
+          - name: router
+            data_type: STRING
+          - name: timestamp
+            data_type: INTEGER
+          - name: transaction_hash
+            data_type: STRING
+      - name: public_router_tvl
+        config:
+          y42_table:
+            import: router_tvl
+            columns:
+              - price
+              - tvl
+              - asset
+              - tvl_usd
+              - latest_transfer_day
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key: []
+        columns:
+          - name: asset
+            data_type: STRING
+          - name: latest_transfer_day
+            data_type: DATE
+          - name: price
+            data_type: FLOAT
+          - name: tvl
+            data_type: FLOAT
+          - name: tvl_usd
+            data_type: FLOAT
+      - name: public_routers
+        config:
+          y42_table:
+            import: routers
+            columns:
+              - address
+            group: public
+            supported_sync_modes:
+              - full_refresh
+            default_cursor_field: []
+            source_defined_primary_key:
+              - - address
+        columns:
+          - name: address
+            data_type: STRING
+        tags:
+          - liquidity
+      - name: public_routers_with_balances
+        config:
+          y42_table:
+            import: routers_with_balances
+            columns:
+              - router_address
+              - adopted_decimal
+              - address
+              - supplied
+              - asset_domain
+              - balance_usd
+              - canonical_domain
+              - local
+              - locked_usd
+              - fee_earned_usd
+              - asset_usd_price
+              - balance
+              - removed
+              - domain
+              - canonical_id
+              - removed_usd
+              - id
+              - asset_canonical_id
+              - fees_earned
+              - locked
+              - decimal
+              - supplied_usd
+              - adopted
+              - key
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key: []
+        columns:
+          - name: address
+            data_type: STRING
+          - name: adopted
+            data_type: STRING
+          - name: adopted_decimal
+            data_type: FLOAT
+          - name: asset_canonical_id
+            data_type: STRING
+          - name: asset_domain
+            data_type: STRING
+          - name: asset_usd_price
+            data_type: FLOAT
+            tests:
+              - not_null
+          - name: balance
+            data_type: FLOAT
+          - name: balance_usd
+            data_type: FLOAT
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: decimal
+            data_type: FLOAT
+          - name: domain
+            data_type: STRING
+          - name: fee_earned_usd
+            data_type: FLOAT
+          - name: fees_earned
+            data_type: FLOAT
+          - name: id
+            data_type: STRING
+          - name: key
+            data_type: STRING
+          - name: local
+            data_type: STRING
+          - name: locked
+            data_type: FLOAT
+          - name: locked_usd
+            data_type: FLOAT
+          - name: removed
+            data_type: FLOAT
+          - name: removed_usd
+            data_type: FLOAT
+          - name: router_address
+            data_type: STRING
+          - name: supplied
+            data_type: FLOAT
+          - name: supplied_usd
+            data_type: FLOAT
+        tags:
+          - liquidity
+      - name: public_stableswap_exchanges
+        config:
+          y42_table:
+            import: stableswap_exchanges
+            columns:
+              - fee
+              - block_number
+              - pool_id
+              - nonce
+              - buyer
+              - bought_id
+              - sold_id
+              - tokens_bought
+              - balances
+              - domain
+              - id
+              - tokens_sold
+              - transaction_hash
+              - timestamp
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - timestamp
+            source_defined_primary_key:
+              - - domain
+              - - id
+        columns:
+          - name: balances
+            data_type: STRING
+          - name: block_number
+            data_type: INTEGER
+          - name: bought_id
+            data_type: INTEGER
+          - name: buyer
+            data_type: STRING
+          - name: domain
+            data_type: STRING
+          - name: fee
+            data_type: FLOAT
+          - name: id
+            data_type: STRING
+          - name: nonce
+            data_type: FLOAT
+          - name: pool_id
+            data_type: STRING
+          - name: sold_id
+            data_type: INTEGER
+          - name: timestamp
+            data_type: INTEGER
+          - name: tokens_bought
+            data_type: FLOAT
+          - name: tokens_sold
+            data_type: FLOAT
+          - name: transaction_hash
+            data_type: STRING
+        tags:
+          - liquidity
+      - name: public_stableswap_lp_balances
+        config:
+          y42_table:
+            import: stableswap_lp_balances
+            columns:
+              - last_timestamp
+              - balance
+              - provider
+              - lp_token
+              - domain
+              - pool_id
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key:
+              - - pool_id
+              - - domain
+              - - provider
+        columns:
+          - name: balance
+            data_type: FLOAT
+          - name: domain
+            data_type: STRING
+          - name: last_timestamp
+            data_type: INTEGER
+          - name: lp_token
+            data_type: STRING
+          - name: pool_id
+            data_type: STRING
+          - name: provider
+            data_type: STRING
+      - name: public_stableswap_lp_transfers
+        config:
+          y42_table:
+            import: stableswap_lp_transfers
+            columns:
+              - amount
+              - block_number
+              - to_address
+              - pool_id
+              - nonce
+              - balances
+              - lp_token
+              - domain
+              - pooled_tokens
+              - id
+              - from_address
+              - transaction_hash
+              - timestamp
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - timestamp
+            source_defined_primary_key:
+              - - id
+        columns:
+          - name: amount
+            data_type: FLOAT
+          - name: balances
+            data_type: STRING
+          - name: block_number
+            data_type: INTEGER
+          - name: domain
+            data_type: STRING
+          - name: from_address
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: lp_token
+            data_type: STRING
+          - name: nonce
+            data_type: FLOAT
+          - name: pool_id
+            data_type: STRING
+          - name: pooled_tokens
+            data_type: STRING
+          - name: timestamp
+            data_type: INTEGER
+          - name: to_address
+            data_type: STRING
+          - name: transaction_hash
+            data_type: STRING
+      - name: public_stableswap_pool_events
+        config:
+          y42_table:
+            import: stableswap_pool_events
+            columns:
+              - fees
+              - lp_token_amount
+              - token_amounts
+              - block_number
+              - pool_id
+              - nonce
+              - balances
+              - provider
+              - lp_token_supply
+              - domain
+              - pool_token_decimals
+              - action
+              - pooled_tokens
+              - id
+              - transaction_hash
+              - timestamp
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - timestamp
+            source_defined_primary_key:
+              - - id
+        columns:
+          - name: action
+            data_type: STRING
+          - name: balances
+            data_type: STRING
+          - name: block_number
+            data_type: INTEGER
+          - name: domain
+            data_type: STRING
+          - name: fees
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: lp_token_amount
+            data_type: FLOAT
+          - name: lp_token_supply
+            data_type: FLOAT
+          - name: nonce
+            data_type: FLOAT
+          - name: pool_id
+            data_type: STRING
+          - name: pool_token_decimals
+            data_type: STRING
+          - name: pooled_tokens
+            data_type: STRING
+          - name: provider
+            data_type: STRING
+          - name: timestamp
+            data_type: INTEGER
+          - name: token_amounts
+            data_type: STRING
+          - name: transaction_hash
+            data_type: STRING
+      - name: public_stableswap_pools
+        config:
+          y42_table:
+            import: stableswap_pools
+            columns:
+              - is_active
+              - virtual_price
+              - admin_fee
+              - future_a_time
+              - future_a
+              - initial_a
+              - invariant
+              - balances
+              - initial_a_time
+              - swap_fee
+              - lp_token
+              - lp_token_supply
+              - domain
+              - pool_token_decimals
+              - pooled_tokens
+              - token_precision_multipliers
+              - key
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key:
+              - - domain
+              - - key
+        columns:
+          - name: admin_fee
+            data_type: STRING
+          - name: balances
+            data_type: STRING
+          - name: domain
+            data_type: STRING
+          - name: future_a
+            data_type: INTEGER
+          - name: future_a_time
+            data_type: INTEGER
+          - name: initial_a
+            data_type: INTEGER
+          - name: initial_a_time
+            data_type: INTEGER
+          - name: invariant
+            data_type: STRING
+          - name: is_active
+            data_type: BOOLEAN
+          - name: key
+            data_type: STRING
+          - name: lp_token
+            data_type: STRING
+          - name: lp_token_supply
+            data_type: STRING
+          - name: pool_token_decimals
+            data_type: STRING
+          - name: pooled_tokens
+            data_type: STRING
+          - name: swap_fee
+            data_type: STRING
+          - name: token_precision_multipliers
+            data_type: STRING
+          - name: virtual_price
+            data_type: STRING
+        tags:
+          - liquidity
+      - name: public_transfers_with_numeric_id
+        config:
+          y42_table:
+            import: transfers_with_numeric_id
+            columns:
+              - execute_tx_origin
+              - execute_transaction_hash
+              - origin_transacting_amount
+              - reconcile_caller
+              - numeric_id
+              - origin_domain
+              - origin_bridged_amount
+              - destination_chain
+              - destination_domain
+              - origin_bridged_asset
+              - xcall_gas_price
+              - origin_transacting_asset
+              - message_hash
+              - destination_local_asset
+              - execute_gas_limit
+              - reconcile_transaction_hash
+              - execute_block_number
+              - slippage
+              - destination_transacting_amount
+              - error_message
+              - destination_transacting_asset
+              - transfer_id
+              - execute_timestamp
+              - nonce
+              - message_status
+              - reconcile_gas_limit
+              - relayer_fees
+              - reconcile_timestamp
+              - status
+              - updated_slippage
+              - receive_local
+              - execute_gas_price
+              - xcall_caller
+              - xcall_tx_origin
+              - xcall_block_number
+              - next_execution_timestamp
+              - delegate
+              - update_time
+              - execute_caller
+              - xcall_gas_limit
+              - normalized_in
+              - xcall_timestamp
+              - error_status
+              - destination_local_amount
+              - routers
+              - execute_origin_sender
+              - execute_simulation_input
+              - origin_sender
+              - reconcile_tx_origin
+              - backoff
+              - origin_chain
+              - xcall_transaction_hash
+              - reconcile_gas_price
+              - execute_simulation_from
+              - canonical_domain
+              - execute_simulation_to
+              - ttr
+              - call_data
+              - bridged_amt
+              - ttv
+              - canonical_id
+              - router_fee
+              - execute_simulation_network
+              - to
+              - reconcile_block_number
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - update_time
+            source_defined_primary_key: []
+        columns:
+          - name: backoff
+            data_type: INTEGER
+          - name: bridged_amt
+            data_type: STRING
+          - name: call_data
+            data_type: STRING
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: delegate
+            data_type: STRING
+          - name: destination_chain
+            data_type: STRING
+          - name: destination_domain
+            data_type: STRING
+          - name: destination_local_amount
+            data_type: STRING
+          - name: destination_local_asset
+            data_type: STRING
+          - name: destination_transacting_amount
+            data_type: STRING
+          - name: destination_transacting_asset
+            data_type: STRING
+          - name: error_message
+            data_type: STRING
+          - name: error_status
+            data_type: STRING
+          - name: execute_block_number
+            data_type: INTEGER
+          - name: execute_caller
+            data_type: STRING
+          - name: execute_gas_limit
+            data_type: STRING
+          - name: execute_gas_price
+            data_type: STRING
+          - name: execute_origin_sender
+            data_type: STRING
+          - name: execute_simulation_from
+            data_type: STRING
+          - name: execute_simulation_input
+            data_type: STRING
+          - name: execute_simulation_network
+            data_type: STRING
+          - name: execute_simulation_to
+            data_type: STRING
+          - name: execute_timestamp
+            data_type: INTEGER
+          - name: execute_transaction_hash
+            data_type: STRING
+          - name: execute_tx_origin
+            data_type: STRING
+          - name: message_hash
+            data_type: STRING
+          - name: message_status
+            data_type: STRING
+          - name: next_execution_timestamp
+            data_type: INTEGER
+          - name: nonce
+            data_type: INTEGER
+          - name: normalized_in
+            data_type: STRING
+          - name: numeric_id
+            data_type: INTEGER
+          - name: origin_bridged_amount
+            data_type: STRING
+          - name: origin_bridged_asset
+            data_type: STRING
+          - name: origin_chain
+            data_type: STRING
+          - name: origin_domain
+            data_type: STRING
+          - name: origin_sender
+            data_type: STRING
+          - name: origin_transacting_amount
+            data_type: STRING
+          - name: origin_transacting_asset
+            data_type: STRING
+          - name: receive_local
+            data_type: BOOLEAN
+          - name: reconcile_block_number
+            data_type: INTEGER
+          - name: reconcile_caller
+            data_type: STRING
+          - name: reconcile_gas_limit
+            data_type: STRING
+          - name: reconcile_gas_price
+            data_type: STRING
+          - name: reconcile_timestamp
+            data_type: INTEGER
+          - name: reconcile_transaction_hash
+            data_type: STRING
+          - name: reconcile_tx_origin
+            data_type: STRING
+          - name: relayer_fees
+            data_type: STRING
+          - name: router_fee
+            data_type: STRING
+          - name: routers
+            data_type: STRING
+          - name: slippage
+            data_type: FLOAT
+          - name: status
+            data_type: STRING
+          - name: to
+            data_type: STRING
+          - name: transfer_id
+            data_type: STRING
+          - name: ttr
+            data_type: INTEGER
+          - name: ttv
+            data_type: INTEGER
+          - name: update_time
+            data_type: TIMESTAMP
+          - name: updated_slippage
+            data_type: FLOAT
+          - name: xcall_block_number
+            data_type: INTEGER
+          - name: xcall_caller
+            data_type: STRING
+          - name: xcall_gas_limit
+            data_type: STRING
+          - name: xcall_gas_price
+            data_type: STRING
+          - name: xcall_timestamp
+            data_type: INTEGER
+          - name: xcall_transaction_hash
+            data_type: STRING
+          - name: xcall_tx_origin
+            data_type: STRING
+      - name: public_transfers_with_price_ttr_ttv
+        config:
+          y42_table:
+            import: transfers_with_price_ttr_ttv
+            columns:
+              - execute_tx_origin
+              - execute_transaction_hash
+              - origin_transacting_amount
+              - reconcile_caller
+              - origin_domain
+              - origin_bridged_amount
+              - destination_chain
+              - destination_domain
+              - origin_bridged_asset
+              - xcall_gas_price
+              - origin_transacting_asset
+              - message_hash
+              - destination_local_asset
+              - execute_gas_limit
+              - reconcile_transaction_hash
+              - execute_block_number
+              - id
+              - slippage
+              - destination_transacting_amount
+              - error_message
+              - destination_transacting_asset
+              - transfer_id
+              - execute_timestamp
+              - nonce
+              - message_status
+              - asset_usd_price
+              - reconcile_gas_limit
+              - relayer_fees
+              - reconcile_timestamp
+              - status
+              - updated_slippage
+              - receive_local
+              - execute_gas_price
+              - xcall_caller
+              - xcall_tx_origin
+              - xcall_block_number
+              - next_execution_timestamp
+              - delegate
+              - update_time
+              - execute_caller
+              - xcall_gas_limit
+              - normalized_in
+              - xcall_timestamp
+              - error_status
+              - destination_local_amount
+              - routers
+              - execute_origin_sender
+              - usd_amount
+              - execute_simulation_input
+              - origin_sender
+              - reconcile_tx_origin
+              - backoff
+              - origin_chain
+              - xcall_transaction_hash
+              - reconcile_gas_price
+              - execute_simulation_from
+              - canonical_domain
+              - execute_simulation_to
+              - ttr
+              - call_data
+              - bridged_amt
+              - decimals
+              - ttv
+              - canonical_id
+              - router_fee
+              - execute_simulation_network
+              - to
+              - reconcile_block_number
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - update_time
+            source_defined_primary_key: []
+        columns:
+          - name: asset_usd_price
+            data_type: FLOAT
+          - name: backoff
+            data_type: INTEGER
+          - name: bridged_amt
+            data_type: STRING
+          - name: call_data
+            data_type: STRING
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: decimals
+            data_type: FLOAT
+          - name: delegate
+            data_type: STRING
+          - name: destination_chain
+            data_type: STRING
+          - name: destination_domain
+            data_type: STRING
+          - name: destination_local_amount
+            data_type: STRING
+          - name: destination_local_asset
+            data_type: STRING
+          - name: destination_transacting_amount
+            data_type: STRING
+          - name: destination_transacting_asset
+            data_type: STRING
+          - name: error_message
+            data_type: STRING
+          - name: error_status
+            data_type: STRING
+          - name: execute_block_number
+            data_type: INTEGER
+          - name: execute_caller
+            data_type: STRING
+          - name: execute_gas_limit
+            data_type: STRING
+          - name: execute_gas_price
+            data_type: STRING
+          - name: execute_origin_sender
+            data_type: STRING
+          - name: execute_simulation_from
+            data_type: STRING
+          - name: execute_simulation_input
+            data_type: STRING
+          - name: execute_simulation_network
+            data_type: STRING
+          - name: execute_simulation_to
+            data_type: STRING
+          - name: execute_timestamp
+            data_type: INTEGER
+          - name: execute_transaction_hash
+            data_type: STRING
+          - name: execute_tx_origin
+            data_type: STRING
+          - name: id
+            data_type: INTEGER
+          - name: message_hash
+            data_type: STRING
+          - name: message_status
+            data_type: STRING
+          - name: next_execution_timestamp
+            data_type: INTEGER
+          - name: nonce
+            data_type: INTEGER
+          - name: normalized_in
+            data_type: STRING
+          - name: origin_bridged_amount
+            data_type: STRING
+          - name: origin_bridged_asset
+            data_type: STRING
+          - name: origin_chain
+            data_type: STRING
+          - name: origin_domain
+            data_type: STRING
+          - name: origin_sender
+            data_type: STRING
+          - name: origin_transacting_amount
+            data_type: STRING
+          - name: origin_transacting_asset
+            data_type: STRING
+          - name: receive_local
+            data_type: BOOLEAN
+          - name: reconcile_block_number
+            data_type: INTEGER
+          - name: reconcile_caller
+            data_type: STRING
+          - name: reconcile_gas_limit
+            data_type: STRING
+          - name: reconcile_gas_price
+            data_type: STRING
+          - name: reconcile_timestamp
+            data_type: INTEGER
+          - name: reconcile_transaction_hash
+            data_type: STRING
+          - name: reconcile_tx_origin
+            data_type: STRING
+          - name: relayer_fees
+            data_type: STRING
+          - name: router_fee
+            data_type: STRING
+          - name: routers
+            data_type: STRING
+          - name: slippage
+            data_type: FLOAT
+          - name: status
+            data_type: STRING
+          - name: to
+            data_type: STRING
+          - name: transfer_id
+            data_type: STRING
+          - name: ttr
+            data_type: INTEGER
+          - name: ttv
+            data_type: INTEGER
+          - name: update_time
+            data_type: TIMESTAMP
+          - name: updated_slippage
+            data_type: FLOAT
+          - name: usd_amount
+            data_type: FLOAT
+          - name: xcall_block_number
+            data_type: INTEGER
+          - name: xcall_caller
+            data_type: STRING
+          - name: xcall_gas_limit
+            data_type: STRING
+          - name: xcall_gas_price
+            data_type: STRING
+          - name: xcall_timestamp
+            data_type: INTEGER
+          - name: xcall_transaction_hash
+            data_type: STRING
+          - name: xcall_tx_origin
+            data_type: STRING
+          - name: column
+      - name: public_daily_transfer_metrics
+        config:
+          y42_table:
+            import: daily_transfer_metrics
+            columns:
+              - completedslow_transfer_count
+              - slowpath_avg_ttr_in_secs
+              - unique_user_count
+              - transfer_count
+              - zero_amount_transfer_count
+              - slowpath_avg_ttv_in_secs
+              - completedfast_transfer_count
+              - origin_chain
+              - fastpath_avg_ttv_in_secs
+              - destination_chain
+              - fastpath_avg_ttr_in_secs
+              - transfer_date
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - transfer_date
+            source_defined_primary_key: []
+        columns:
+          - name: completedfast_transfer_count
+            data_type: INTEGER
+          - name: completedslow_transfer_count
+            data_type: INTEGER
+          - name: destination_chain
+            data_type: STRING
+          - name: fastpath_avg_ttr_in_secs
+            data_type: FLOAT
+          - name: fastpath_avg_ttv_in_secs
+            data_type: FLOAT
+          - name: origin_chain
+            data_type: STRING
+          - name: slowpath_avg_ttr_in_secs
+            data_type: FLOAT
+          - name: slowpath_avg_ttv_in_secs
+            data_type: FLOAT
+          - name: transfer_count
+            data_type: INTEGER
+          - name: transfer_date
+            data_type: DATE
+          - name: unique_user_count
+            data_type: INTEGER
+          - name: zero_amount_transfer_count
+            data_type: INTEGER
+      - name: public_weekly_transfer_metrics
+        config:
+          y42_table:
+            import: weekly_transfer_metrics
+            columns:
+              - completedslow_transfer_count
+              - slowpath_avg_ttr_in_secs
+              - unique_user_count
+              - transfer_count
+              - zero_amount_transfer_count
+              - slowpath_avg_ttv_in_secs
+              - completedfast_transfer_count
+              - origin_chain
+              - fastpath_avg_ttv_in_secs
+              - destination_chain
+              - fastpath_avg_ttr_in_secs
+              - transfer_date
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - transfer_date
+            source_defined_primary_key: []
+        columns:
+          - name: completedfast_transfer_count
+            data_type: INTEGER
+          - name: completedslow_transfer_count
+            data_type: INTEGER
+          - name: destination_chain
+            data_type: STRING
+          - name: fastpath_avg_ttr_in_secs
+            data_type: FLOAT
+          - name: fastpath_avg_ttv_in_secs
+            data_type: FLOAT
+          - name: origin_chain
+            data_type: STRING
+          - name: slowpath_avg_ttr_in_secs
+            data_type: FLOAT
+          - name: slowpath_avg_ttv_in_secs
+            data_type: FLOAT
+          - name: transfer_count
+            data_type: INTEGER
+          - name: transfer_date
+            data_type: DATE
+          - name: unique_user_count
+            data_type: INTEGER
+          - name: zero_amount_transfer_count
+            data_type: INTEGER
+      - name: public_transfers
+        config:
+          y42_table:
+            import: transfers
+            columns:
+              - execute_tx_origin
+              - execute_transaction_hash
+              - origin_transacting_amount
+              - reconcile_caller
+              - origin_domain
+              - origin_bridged_amount
+              - destination_chain
+              - destination_domain
+              - origin_bridged_asset
+              - xcall_gas_price
+              - origin_transacting_asset
+              - message_hash
+              - destination_local_asset
+              - execute_gas_limit
+              - reconcile_transaction_hash
+              - execute_block_number
+              - slippage
+              - destination_transacting_amount
+              - error_message
+              - destination_transacting_asset
+              - transfer_id
+              - execute_timestamp
+              - nonce
+              - message_status
+              - reconcile_gas_limit
+              - relayer_fees
+              - reconcile_timestamp
+              - status
+              - updated_slippage
+              - receive_local
+              - execute_gas_price
+              - xcall_caller
+              - xcall_tx_origin
+              - reconcile_tx_nonce
+              - xcall_block_number
+              - next_execution_timestamp
+              - delegate
+              - update_time
+              - execute_caller
+              - xcall_gas_limit
+              - normalized_in
+              - xcall_timestamp
+              - error_status
+              - destination_local_amount
+              - routers
+              - execute_origin_sender
+              - execute_simulation_input
+              - origin_sender
+              - reconcile_tx_origin
+              - backoff
+              - origin_chain
+              - xcall_transaction_hash
+              - reconcile_gas_price
+              - execute_simulation_from
+              - execute_tx_nonce
+              - canonical_domain
+              - execute_simulation_to
+              - call_data
+              - bridged_amt
+              - canonical_id
+              - router_fee
+              - execute_simulation_network
+              - to
+              - reconcile_block_number
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - update_time
+            source_defined_primary_key:
+              - - transfer_id
+        columns:
+          - name: backoff
+            data_type: INTEGER
+          - name: bridged_amt
+            data_type: STRING
+          - name: call_data
+            data_type: STRING
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: delegate
+            data_type: STRING
+          - name: destination_chain
+            data_type: STRING
+          - name: destination_domain
+            data_type: STRING
+          - name: destination_local_amount
+            data_type: STRING
+          - name: destination_local_asset
+            data_type: STRING
+          - name: destination_transacting_amount
+            data_type: STRING
+          - name: destination_transacting_asset
+            data_type: STRING
+          - name: error_message
+            data_type: STRING
+          - name: error_status
+            data_type: STRING
+          - name: execute_block_number
+            data_type: INTEGER
+          - name: execute_caller
+            data_type: STRING
+          - name: execute_gas_limit
+            data_type: STRING
+          - name: execute_gas_price
+            data_type: STRING
+          - name: execute_origin_sender
+            data_type: STRING
+          - name: execute_simulation_from
+            data_type: STRING
+          - name: execute_simulation_input
+            data_type: STRING
+          - name: execute_simulation_network
+            data_type: STRING
+          - name: execute_simulation_to
+            data_type: STRING
+          - name: execute_timestamp
+            data_type: INTEGER
+          - name: execute_transaction_hash
+            data_type: STRING
+          - name: execute_tx_nonce
+            data_type: FLOAT
+          - name: execute_tx_origin
+            data_type: STRING
+          - name: message_hash
+            data_type: STRING
+          - name: message_status
+            data_type: STRING
+          - name: next_execution_timestamp
+            data_type: INTEGER
+          - name: nonce
+            data_type: INTEGER
+          - name: normalized_in
+            data_type: STRING
+          - name: origin_bridged_amount
+            data_type: STRING
+          - name: origin_bridged_asset
+            data_type: STRING
+          - name: origin_chain
+            data_type: STRING
+          - name: origin_domain
+            data_type: STRING
+          - name: origin_sender
+            data_type: STRING
+          - name: origin_transacting_amount
+            data_type: STRING
+          - name: origin_transacting_asset
+            data_type: STRING
+          - name: receive_local
+            data_type: BOOLEAN
+          - name: reconcile_block_number
+            data_type: INTEGER
+          - name: reconcile_caller
+            data_type: STRING
+          - name: reconcile_gas_limit
+            data_type: STRING
+          - name: reconcile_gas_price
+            data_type: STRING
+          - name: reconcile_timestamp
+            data_type: INTEGER
+          - name: reconcile_transaction_hash
+            data_type: STRING
+          - name: reconcile_tx_nonce
+            data_type: FLOAT
+          - name: reconcile_tx_origin
+            data_type: STRING
+          - name: relayer_fees
+            data_type: STRING
+          - name: router_fee
+            data_type: STRING
+          - name: routers
+            data_type: STRING
+          - name: slippage
+            data_type: FLOAT
+          - name: status
+            data_type: STRING
+          - name: to
+            data_type: STRING
+          - name: transfer_id
+            data_type: STRING
+          - name: update_time
+            data_type: TIMESTAMP
+          - name: updated_slippage
+            data_type: FLOAT
+          - name: xcall_block_number
+            data_type: INTEGER
+          - name: xcall_caller
+            data_type: STRING
+          - name: xcall_gas_limit
+            data_type: STRING
+          - name: xcall_gas_price
+            data_type: STRING
+          - name: xcall_timestamp
+            data_type: INTEGER
+          - name: xcall_transaction_hash
+            data_type: STRING
+          - name: xcall_tx_origin
+            data_type: STRING
+      - name: public_daily_swap_volume
+        config:
+          y42_table:
+            import: daily_swap_volume
+            columns:
+              - volume
+              - domain
+              - swap_day
+              - pool_id
+              - swap_count
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - swap_day
+            source_defined_primary_key: []
+        columns:
+          - name: domain
+            data_type: STRING
+          - name: pool_id
+            data_type: STRING
+          - name: swap_count
+            data_type: INTEGER
+          - name: swap_day
+            data_type: DATE
+          - name: volume
+            data_type: FLOAT
+      - name: public_hourly_transfer_volume
+        config:
+          y42_table:
+            import: hourly_transfer_volume
+            columns:
+              - volume
+              - router
+              - origin_chain
+              - transfer_hour
+              - destination_chain
+              - avg_price
+              - id
+              - asset
+              - usd_volume
+              - status
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - transfer_hour
+            source_defined_primary_key: []
+        columns:
+          - name: asset
+            data_type: STRING
+          - name: avg_price
+            data_type: FLOAT
+          - name: destination_chain
+            data_type: STRING
+          - name: id
+            data_type: INTEGER
+          - name: origin_chain
+            data_type: STRING
+          - name: router
+            data_type: STRING
+          - name: status
+            data_type: STRING
+          - name: transfer_hour
+            data_type: TIMESTAMP
+          - name: usd_volume
+            data_type: FLOAT
+          - name: volume
+            data_type: FLOAT
+      - name: public_weekly_connext_metrics
+        config:
+          y42_table:
+            import: weekly_connext_metrics
+            columns:
+              - completedslow_transfer_count
+              - slowpath_avg_ttr_in_secs
+              - unique_user_count
+              - transfer_count
+              - zero_amount_transfer_count
+              - slowpath_avg_ttv_in_secs
+              - completedfast_transfer_count
+              - fastpath_avg_ttv_in_secs
+              - fastpath_avg_ttr_in_secs
+              - transfer_date
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - transfer_date
+            source_defined_primary_key: []
+        columns:
+          - name: completedfast_transfer_count
+            data_type: INTEGER
+          - name: completedslow_transfer_count
+            data_type: INTEGER
+          - name: fastpath_avg_ttr_in_secs
+            data_type: FLOAT
+          - name: fastpath_avg_ttv_in_secs
+            data_type: FLOAT
+          - name: slowpath_avg_ttr_in_secs
+            data_type: FLOAT
+          - name: slowpath_avg_ttv_in_secs
+            data_type: FLOAT
+          - name: transfer_count
+            data_type: INTEGER
+          - name: transfer_date
+            data_type: DATE
+          - name: unique_user_count
+            data_type: INTEGER
+          - name: zero_amount_transfer_count
+            data_type: INTEGER
+      - name: public_hourly_swap_volume
+        config:
+          y42_table:
+            import: hourly_swap_volume
+            columns:
+              - swap_hour
+              - volume
+              - domain
+              - pool_id
+              - swap_count
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - swap_hour
+            source_defined_primary_key: []
+        columns:
+          - name: domain
+            data_type: STRING
+          - name: pool_id
+            data_type: STRING
+          - name: swap_count
+            data_type: INTEGER
+          - name: swap_hour
+            data_type: TIMESTAMP
+          - name: volume
+            data_type: FLOAT
+      - name: public_transfers_with_price
+        config:
+          y42_table:
+            import: transfers_with_price
+            columns:
+              - execute_tx_origin
+              - execute_transaction_hash
+              - origin_transacting_amount
+              - reconcile_caller
+              - origin_domain
+              - origin_bridged_amount
+              - destination_chain
+              - destination_domain
+              - origin_bridged_asset
+              - xcall_gas_price
+              - origin_transacting_asset
+              - message_hash
+              - destination_local_asset
+              - execute_gas_limit
+              - reconcile_transaction_hash
+              - execute_block_number
+              - slippage
+              - destination_transacting_amount
+              - error_message
+              - destination_transacting_asset
+              - transfer_id
+              - execute_timestamp
+              - nonce
+              - message_status
+              - asset_usd_price
+              - reconcile_gas_limit
+              - relayer_fees
+              - reconcile_timestamp
+              - status
+              - updated_slippage
+              - receive_local
+              - execute_gas_price
+              - xcall_caller
+              - xcall_tx_origin
+              - xcall_block_number
+              - next_execution_timestamp
+              - delegate
+              - update_time
+              - execute_caller
+              - xcall_gas_limit
+              - normalized_in
+              - xcall_timestamp
+              - error_status
+              - destination_local_amount
+              - routers
+              - execute_origin_sender
+              - usd_amount
+              - execute_simulation_input
+              - origin_sender
+              - reconcile_tx_origin
+              - backoff
+              - origin_chain
+              - xcall_transaction_hash
+              - reconcile_gas_price
+              - execute_simulation_from
+              - canonical_domain
+              - execute_simulation_to
+              - call_data
+              - bridged_amt
+              - decimals
+              - canonical_id
+              - router_fee
+              - execute_simulation_network
+              - to
+              - reconcile_block_number
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field:
+              - update_time
+            source_defined_primary_key: []
+        columns:
+          - name: asset_usd_price
+            data_type: FLOAT
+          - name: backoff
+            data_type: INTEGER
+          - name: bridged_amt
+            data_type: STRING
+          - name: call_data
+            data_type: STRING
+          - name: canonical_domain
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: decimals
+            data_type: FLOAT
+          - name: delegate
+            data_type: STRING
+          - name: destination_chain
+            data_type: STRING
+          - name: destination_domain
+            data_type: STRING
+          - name: destination_local_amount
+            data_type: STRING
+          - name: destination_local_asset
+            data_type: STRING
+          - name: destination_transacting_amount
+            data_type: STRING
+          - name: destination_transacting_asset
+            data_type: STRING
+          - name: error_message
+            data_type: STRING
+          - name: error_status
+            data_type: STRING
+          - name: execute_block_number
+            data_type: INTEGER
+          - name: execute_caller
+            data_type: STRING
+          - name: execute_gas_limit
+            data_type: STRING
+          - name: execute_gas_price
+            data_type: STRING
+          - name: execute_origin_sender
+            data_type: STRING
+          - name: execute_simulation_from
+            data_type: STRING
+          - name: execute_simulation_input
+            data_type: STRING
+          - name: execute_simulation_network
+            data_type: STRING
+          - name: execute_simulation_to
+            data_type: STRING
+          - name: execute_timestamp
+            data_type: INTEGER
+          - name: execute_transaction_hash
+            data_type: STRING
+          - name: execute_tx_origin
+            data_type: STRING
+          - name: message_hash
+            data_type: STRING
+          - name: message_status
+            data_type: STRING
+          - name: next_execution_timestamp
+            data_type: INTEGER
+          - name: nonce
+            data_type: INTEGER
+          - name: normalized_in
+            data_type: STRING
+          - name: origin_bridged_amount
+            data_type: STRING
+          - name: origin_bridged_asset
+            data_type: STRING
+          - name: origin_chain
+            data_type: STRING
+          - name: origin_domain
+            data_type: STRING
+          - name: origin_sender
+            data_type: STRING
+          - name: origin_transacting_amount
+            data_type: STRING
+          - name: origin_transacting_asset
+            data_type: STRING
+          - name: receive_local
+            data_type: BOOLEAN
+          - name: reconcile_block_number
+            data_type: INTEGER
+          - name: reconcile_caller
+            data_type: STRING
+          - name: reconcile_gas_limit
+            data_type: STRING
+          - name: reconcile_gas_price
+            data_type: STRING
+          - name: reconcile_timestamp
+            data_type: INTEGER
+          - name: reconcile_transaction_hash
+            data_type: STRING
+          - name: reconcile_tx_origin
+            data_type: STRING
+          - name: relayer_fees
+            data_type: STRING
+          - name: router_fee
+            data_type: STRING
+          - name: routers
+            data_type: STRING
+          - name: slippage
+            data_type: FLOAT
+          - name: status
+            data_type: STRING
+          - name: to
+            data_type: STRING
+          - name: transfer_id
+            data_type: STRING
+          - name: update_time
+            data_type: TIMESTAMP
+          - name: updated_slippage
+            data_type: FLOAT
+          - name: usd_amount
+            data_type: FLOAT
+          - name: xcall_block_number
+            data_type: INTEGER
+          - name: xcall_caller
+            data_type: STRING
+          - name: xcall_gas_limit
+            data_type: STRING
+          - name: xcall_gas_price
+            data_type: STRING
+          - name: xcall_timestamp
+            data_type: INTEGER
+          - name: xcall_transaction_hash
+            data_type: STRING
+          - name: xcall_tx_origin
+            data_type: STRING

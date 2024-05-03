@@ -1,0 +1,281 @@
+version: 2
+
+models:
+  - name: transfers_mapped
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - liquidity
+        - dashboard
+    columns:
+      - name: origin_domain_name
+        description: ""
+        data_type: STRING
+      - name: destination_domain_name
+        description: ""
+        data_type: STRING
+      - name: origin_asset_name
+        description: ""
+        data_type: STRING
+      - name: origin_asset_decimals
+        description: ""
+        data_type: FLOAT64
+      - name: destination_asset_name
+        description: ""
+        data_type: STRING
+      - name: destination_asset_decimals
+        description: ""
+        data_type: FLOAT64
+      - name: caller_type
+        description: ""
+        data_type: STRING
+      - name: chain
+        description: ""
+        data_type: STRING
+      - name: contract_author
+        description: ""
+        data_type: STRING
+      - name: contract_name
+        description: ""
+        data_type: STRING
+      - name: description
+        description: ""
+        data_type: STRING
+      - name: _y42_extracted_at
+        description: ""
+        data_type: TIMESTAMP
+      - name: asset_usd_price
+        description: ""
+        data_type: FLOAT64
+      - name: backoff
+        description: ""
+        data_type: INT64
+      - name: bridged_amt
+        description: ""
+        data_type: STRING
+      - name: call_data
+        description: ""
+        data_type: STRING
+      - name: canonical_domain
+        description: ""
+        data_type: STRING
+      - name: canonical_id
+        description: ""
+        data_type: STRING
+      - name: decimals
+        description: ""
+        data_type: FLOAT64
+      - name: delegate
+        description: ""
+        data_type: STRING
+      - name: destination_chain
+        description: ""
+        data_type: STRING
+      - name: destination_domain
+        description: ""
+        data_type: STRING
+      - name: destination_local_amount
+        description: ""
+        data_type: STRING
+      - name: destination_local_asset
+        description: ""
+        data_type: STRING
+      - name: destination_transacting_amount
+        description: ""
+        data_type: STRING
+      - name: destination_transacting_asset
+        description: ""
+        data_type: STRING
+      - name: error_message
+        description: ""
+        data_type: STRING
+      - name: error_status
+        description: ""
+        data_type: STRING
+      - name: execute_block_number
+        description: ""
+        data_type: INT64
+      - name: execute_caller
+        description: ""
+        data_type: STRING
+      - name: execute_gas_limit
+        description: ""
+        data_type: STRING
+      - name: execute_gas_price
+        description: ""
+        data_type: STRING
+      - name: execute_origin_sender
+        description: ""
+        data_type: STRING
+      - name: execute_simulation_from
+        description: ""
+        data_type: STRING
+      - name: execute_simulation_input
+        description: ""
+        data_type: STRING
+      - name: execute_simulation_network
+        description: ""
+        data_type: STRING
+      - name: execute_simulation_to
+        description: ""
+        data_type: STRING
+      - name: execute_timestamp
+        description: ""
+        data_type: INT64
+      - name: execute_transaction_hash
+        description: ""
+        data_type: STRING
+      - name: execute_tx_origin
+        description: ""
+        data_type: STRING
+      - name: message_hash
+        description: ""
+        data_type: STRING
+      - name: message_status
+        description: ""
+        data_type: STRING
+      - name: next_execution_timestamp
+        description: ""
+        data_type: INT64
+      - name: nonce
+        description: ""
+        data_type: INT64
+      - name: normalized_in
+        description: ""
+        data_type: STRING
+      - name: origin_bridged_amount
+        description: ""
+        data_type: STRING
+      - name: origin_bridged_asset
+        description: ""
+        data_type: STRING
+      - name: origin_chain
+        description: ""
+        data_type: STRING
+      - name: origin_domain
+        description: ""
+        data_type: STRING
+      - name: origin_sender
+        description: ""
+        data_type: STRING
+      - name: origin_transacting_amount
+        description: ""
+        data_type: STRING
+      - name: origin_transacting_asset
+        description: ""
+        data_type: STRING
+      - name: receive_local
+        description: ""
+        data_type: BOOL
+      - name: reconcile_block_number
+        description: ""
+        data_type: INT64
+      - name: reconcile_caller
+        description: ""
+        data_type: STRING
+      - name: reconcile_gas_limit
+        description: ""
+        data_type: STRING
+      - name: reconcile_gas_price
+        description: ""
+        data_type: STRING
+      - name: reconcile_timestamp
+        description: ""
+        data_type: INT64
+      - name: reconcile_transaction_hash
+        description: ""
+        data_type: STRING
+      - name: reconcile_tx_origin
+        description: ""
+        data_type: STRING
+      - name: relayer_fees
+        description: ""
+        data_type: STRING
+      - name: router_fee
+        description: ""
+        data_type: STRING
+      - name: routers
+        description: ""
+        data_type: STRING
+      - name: slippage
+        description: ""
+        data_type: FLOAT64
+      - name: status
+        description: ""
+        data_type: STRING
+      - name: to
+        description: ""
+        data_type: STRING
+      - name: transfer_id
+        description: ""
+        data_type: STRING
+      - name: update_time
+        description: ""
+        data_type: TIMESTAMP
+      - name: updated_slippage
+        description: ""
+        data_type: FLOAT64
+      - name: usd_amount
+        description: ""
+        data_type: FLOAT64
+      - name: xcall_block_number
+        description: ""
+        data_type: INT64
+      - name: xcall_caller
+        description: ""
+        data_type: STRING
+      - name: xcall_gas_limit
+        description: ""
+        data_type: STRING
+      - name: xcall_gas_price
+        description: ""
+        data_type: STRING
+      - name: xcall_timestamp
+        description: ""
+        data_type: INT64
+      - name: xcall_transaction_hash
+        description: ""
+        data_type: STRING
+      - name: xcall_tx_origin
+        description: ""
+        data_type: STRING
+      - name: ttv
+        description: ""
+        data_type: INT64
+      - name: ttr
+        description: ""
+        data_type: INT64
+      - name: row_num
+        description: ""
+        data_type: INT64
+      - name: xcall_date
+        description: ""
+        data_type: STRING
+      - name: origin_amount
+        data_type: FLOAT64
+      - name: normalized_out
+        data_type: FLOAT64
+      - name: destination_amount
+        data_type: FLOAT64
+      - name: bridged_amount
+        data_type: FLOAT64
+      - name: is_origin_asset_xerc20
+        data_type: BOOL
+      - name: is_destination_asset_xerc20
+        data_type: BOOL
+      - name: origin_asset_type
+        data_type: STRING
+      - name: destination_asset_type
+        data_type: STRING
+      - name: ETH_price
+        data_type: FLOAT64
+    description: This model refines transfer data by mapping domain names, asset
+      names, decimals, and caller types. It enriches the dataset by linking
+      transfer details with corresponding domain and asset information,
+      distinguishing between transactions initiated by contracts or externally
+      owned accounts (EOAs).

@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: carto-test
+    config:
+      y42_source:
+        type: cdata-postgresql
+        connection: Carto-read
+      y42:
+        apiVersion: v3
+    meta:
+      experts:
+        users:
+          - anton@connext.network

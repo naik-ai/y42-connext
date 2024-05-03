@@ -1,0 +1,84 @@
+version: 2
+
+sources:
+  - name: Mapping
+    config:
+      y42_source:
+        type: source-google-sheets
+        connection: Mapping
+        settings:
+          row_batch_size: 10000
+          names_conversion: true
+      y42:
+        apiVersion: v3
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    tables:
+      - name: domains
+        config:
+          y42_table:
+            import: domains
+            columns:
+              - name
+              - chain_id
+              - domain_id
+              - confirmations
+              - short_name
+              - native_currency
+              - native_symbol
+              - native_decimals
+              - type
+            group: null
+            supported_sync_modes:
+              - full_refresh
+        columns:
+          - name: chain_id
+            data_type: STRING
+          - name: confirmations
+            data_type: STRING
+          - name: domain_id
+            data_type: STRING
+          - name: name
+            data_type: STRING
+          - name: native_currency
+            data_type: STRING
+          - name: native_decimals
+            data_type: STRING
+          - name: native_symbol
+            data_type: STRING
+          - name: short_name
+            data_type: STRING
+          - name: type
+            data_type: STRING
+          - name: _y42_extracted_at
+            data_type: TIMESTAMP
+      - name: contracts
+        config:
+          y42_table:
+            import: contracts
+            columns:
+              - xcall_caller
+              - contract_name
+              - contract_author
+              - chain
+              - description
+            group: null
+            supported_sync_modes:
+              - full_refresh
+        columns:
+          - name: chain
+            data_type: STRING
+          - name: contract_author
+            data_type: STRING
+          - name: contract_name
+            data_type: STRING
+          - name: description
+            data_type: STRING
+          - name: xcall_caller
+            data_type: STRING
+          - name: _y42_extracted_at
+            data_type: TIMESTAMP
+    tags:
+      - liquidity

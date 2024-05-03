@@ -1,0 +1,1087 @@
+version: 2
+
+sources:
+  - name: bq_raw
+    config:
+      y42:
+        apiVersion: v3
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    database: mainnet-bigq
+    schema: raw
+    tables:
+      - name: raw_source__cartographer_router_with_balances
+        identifier: source__cartographer_router_with_balances
+        columns:
+          - name: address
+            data_type: STRING
+          - name: asset_canonical_id
+            data_type: STRING
+          - name: asset_domain
+            data_type: STRING
+          - name: router_address
+            data_type: STRING
+          - name: balance
+            data_type: FLOAT64
+          - name: local
+            data_type: STRING
+          - name: adopted
+            data_type: STRING
+          - name: canonical_id
+            data_type: STRING
+          - name: canonical_domain
+            data_type: STRING
+          - name: domain
+            data_type: STRING
+          - name: key
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: fees_earned
+            data_type: FLOAT64
+          - name: locked
+            data_type: FLOAT64
+          - name: supplied
+            data_type: FLOAT64
+          - name: removed
+            data_type: FLOAT64
+          - name: decimal
+            data_type: FLOAT64
+          - name: adopted_decimal
+            data_type: FLOAT64
+          - name: asset_usd_price
+            data_type: FLOAT64
+          - name: balance_usd
+            data_type: FLOAT64
+          - name: fee_earned_usd
+            data_type: FLOAT64
+          - name: locked_usd
+            data_type: FLOAT64
+          - name: supplied_usd
+            data_type: FLOAT64
+          - name: removed_usd
+            data_type: FLOAT64
+      - name: raw__dlt_loads
+        identifier: _dlt_loads
+        columns:
+          - name: load_id
+            data_type: STRING
+          - name: schema_name
+            data_type: STRING
+          - name: status
+            data_type: INT64
+          - name: inserted_at
+            data_type: TIMESTAMP
+          - name: schema_version_hash
+            data_type: STRING
+      - name: raw_source_socket_routes__payloads_logs
+        identifier: source_socket_routes__payloads_logs
+        columns:
+          - name: fromchainid
+            data_type: INT64
+          - name: tochainid
+            data_type: INT64
+          - name: fromamount
+            data_type: STRING
+          - name: fromtokenaddress
+            data_type: STRING
+          - name: totokenaddress
+            data_type: STRING
+          - name: useraddress
+            data_type: STRING
+          - name: uniqueroutesperbridge
+            data_type: STRING
+          - name: sort
+            data_type: STRING
+          - name: status_code
+            data_type: INT64
+          - name: aggregator
+            data_type: STRING
+          - name: upload_datetime
+            data_type: TIMESTAMP
+      - name: raw_stg__cln_source_defilamma_bridges_history_wallets
+        identifier: stg__cln_source_defilamma_bridges_history_wallets
+        columns:
+          - name: api_url
+            data_type: STRING
+          - name: date
+            data_type: INT64
+          - name: bridge_id
+            data_type: STRING
+          - name: timestamp
+            data_type: STRING
+          - name: chain
+            data_type: STRING
+          - name: chain_slug
+            data_type: STRING
+          - name: wallet_address
+            data_type: STRING
+          - name: tx_type
+            data_type: STRING
+          - name: usd_value
+            data_type: FLOAT64
+          - name: txs
+            data_type: INT64
+      - name: raw_stg_all_possible_pathways__routes__lifi_socket
+        identifier: stg_all_possible_pathways__routes__lifi_socket
+        columns:
+          - name: fromChainId
+            data_type: INT64
+          - name: toChainId
+            data_type: INT64
+          - name: fromAmount
+            data_type: FLOAT64
+          - name: fromTokenAddress
+            data_type: STRING
+          - name: toTokenAddress
+            data_type: STRING
+          - name: fromAddress
+            data_type: STRING
+          - name: aggregator
+            data_type: STRING
+      - name: raw_source_defilamma_stables
+        identifier: source_defilamma_stables
+        columns:
+          - name: id
+            data_type: INT64
+          - name: name
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: gecko_id
+            data_type: STRING
+          - name: peg_type
+            data_type: STRING
+          - name: peg_mechanism
+            data_type: STRING
+          - name: circulating
+            data_type: FLOAT64
+          - name: circulating_prev_day
+            data_type: FLOAT64
+          - name: circulating_prev_week
+            data_type: FLOAT64
+          - name: circulating_prev_month
+            data_type: FLOAT64
+          - name: price
+            data_type: FLOAT64
+          - name: delisted
+            data_type: STRING
+          - name: chains
+            data_type: JSON
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+      - name: raw_source_socket__routes
+        identifier: source_socket__routes
+        columns:
+          - name: socketroute
+            data_type: STRING
+          - name: fromchainid
+            data_type: INT64
+          - name: tochainid
+            data_type: INT64
+          - name: fromasset_chainid
+            data_type: INT64
+          - name: fromasset_address
+            data_type: STRING
+          - name: fromasset_symbol
+            data_type: STRING
+          - name: fromasset_name
+            data_type: STRING
+          - name: fromasset_decimals
+            data_type: INT64
+          - name: fromasset_icon
+            data_type: STRING
+          - name: fromasset_logouri
+            data_type: STRING
+          - name: fromasset_chainagnosticid
+            data_type: STRING
+          - name: toasset_chainid
+            data_type: INT64
+          - name: toasset_address
+            data_type: STRING
+          - name: toasset_icon
+            data_type: STRING
+          - name: toasset_logouri
+            data_type: STRING
+          - name: toasset_chainagnosticid
+            data_type: STRING
+          - name: toasset_symbol
+            data_type: STRING
+          - name: toasset_name
+            data_type: STRING
+          - name: toasset_decimals
+            data_type: FLOAT64
+          - name: routeid
+            data_type: STRING
+          - name: isonlyswaproute
+            data_type: STRING
+          - name: fromamount
+            data_type: STRING
+          - name: toamount
+            data_type: STRING
+          - name: usedbridgenames
+            data_type: STRING
+          - name: totalusertx
+            data_type: FLOAT64
+          - name: sender
+            data_type: STRING
+          - name: recipient
+            data_type: STRING
+          - name: totalgasfeesinusd
+            data_type: FLOAT64
+          - name: receivedvalueinusd
+            data_type: FLOAT64
+          - name: inputvalueinusd
+            data_type: FLOAT64
+          - name: outputvalueinusd
+            data_type: FLOAT64
+          - name: usertxs
+            data_type: STRING
+          - name: servicetime
+            data_type: FLOAT64
+          - name: maxservicetime
+            data_type: FLOAT64
+          - name: integratorfee_amount
+            data_type: STRING
+          - name: integratorfee_asset_chainid
+            data_type: FLOAT64
+          - name: integratorfee_asset_address
+            data_type: STRING
+          - name: integratorfee_asset_symbol
+            data_type: STRING
+          - name: integratorfee_asset_name
+            data_type: STRING
+          - name: integratorfee_asset_decimals
+            data_type: FLOAT64
+          - name: integratorfee_asset_icon
+            data_type: STRING
+          - name: integratorfee_asset_logouri
+            data_type: STRING
+          - name: integratorfee_asset_chainagnosticid
+            data_type: STRING
+          - name: extradata_rewards
+            data_type: STRING
+          - name: upload_datetime
+            data_type: TIMESTAMP
+      - name: raw__dlt_version
+        identifier: _dlt_version
+        columns:
+          - name: version
+            data_type: INT64
+          - name: engine_version
+            data_type: INT64
+          - name: inserted_at
+            data_type: TIMESTAMP
+          - name: schema_name
+            data_type: STRING
+          - name: version_hash
+            data_type: STRING
+          - name: schema
+            data_type: STRING
+      - name: raw_source_socket__routes_unsupported_paths
+        identifier: source_socket__routes_unsupported_paths
+        columns:
+          - name: success
+            data_type: STRING
+          - name: route_length
+            data_type: INT64
+          - name: result_socketroute
+            data_type: STRING
+          - name: result_fromchainid
+            data_type: INT64
+          - name: result_fromasset_chainid
+            data_type: INT64
+          - name: result_fromasset_address
+            data_type: STRING
+          - name: result_fromasset_symbol
+            data_type: STRING
+          - name: result_fromasset_name
+            data_type: STRING
+          - name: result_fromasset_decimals
+            data_type: INT64
+          - name: result_fromasset_icon
+            data_type: STRING
+          - name: result_fromasset_logouri
+            data_type: STRING
+          - name: result_fromasset_chainagnosticid
+            data_type: STRING
+          - name: result_tochainid
+            data_type: INT64
+          - name: result_toasset_chainid
+            data_type: INT64
+          - name: result_toasset_address
+            data_type: STRING
+          - name: result_toasset_icon
+            data_type: STRING
+          - name: result_toasset_logouri
+            data_type: STRING
+          - name: result_toasset_chainagnosticid
+            data_type: STRING
+          - name: result_bridgerouteerrors_polygon-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_hyphen_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_arbitrum-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_anyswap-router-v4_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_anyswap-router-v6_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_hop_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_across_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_celer_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_refuel-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_optimism-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_stargate_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_cctp_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_connext_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_synapse_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_base-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_zora-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_zksync-native_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_symbiosis_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_gnosis-native-bridge_status
+            data_type: STRING
+          - name: result_bridgerouteerrors_mantle-native-bridge_status
+            data_type: STRING
+          - name: result_toasset_symbol
+            data_type: STRING
+          - name: result_toasset_name
+            data_type: STRING
+          - name: result_toasset_decimals
+            data_type: FLOAT64
+          - name: upload_datetime
+            data_type: TIMESTAMP
+      - name: raw_stg__inputs_connext_routes_skipped_pathways
+        identifier: stg__inputs_connext_routes_skipped_pathways
+      - name: raw_source_socket__chains
+        identifier: source_socket__chains
+        columns:
+          - name: chainid
+            data_type: INT64
+          - name: name
+            data_type: STRING
+          - name: isl1
+            data_type: STRING
+          - name: sendingenabled
+            data_type: STRING
+          - name: icon
+            data_type: STRING
+          - name: receivingenabled
+            data_type: STRING
+          - name: rpcs
+            data_type: STRING
+          - name: explorers
+            data_type: STRING
+          - name: refuel_sendingenabled
+            data_type: STRING
+          - name: refuel_receivingenabled
+            data_type: STRING
+          - name: currency_address
+            data_type: STRING
+          - name: currency_icon
+            data_type: STRING
+          - name: currency_name
+            data_type: STRING
+          - name: currency_symbol
+            data_type: STRING
+          - name: currency_decimals
+            data_type: INT64
+          - name: currency_minnativecurrencyforgas
+            data_type: STRING
+      - name: raw_stg__cln_source_defilamma_bridges_history_tokens
+        identifier: stg__cln_source_defilamma_bridges_history_tokens
+        columns:
+          - name: api_url
+            data_type: STRING
+          - name: date
+            data_type: INT64
+          - name: bridge_id
+            data_type: STRING
+          - name: timestamp
+            data_type: STRING
+          - name: chain
+            data_type: STRING
+          - name: chain_slug
+            data_type: STRING
+          - name: token_address
+            data_type: STRING
+          - name: tx_type
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: decimals
+            data_type: INT64
+          - name: usd_value
+            data_type: FLOAT64
+          - name: token_amount
+            data_type: STRING
+      - name: raw_source_socket__bridges
+        identifier: source_socket__bridges
+        columns:
+          - name: name
+            data_type: STRING
+          - name: displayName
+            data_type: STRING
+          - name: icon
+            data_type: STRING
+          - name: serviceTime
+            data_type: INT64
+          - name: securityScore
+            data_type: INT64
+          - name: robustnessScore
+            data_type: INT64
+      - name: raw_source_defilamma_bridges_history_tokens
+        identifier: source_defilamma_bridges_history_tokens
+        columns:
+          - name: date
+            data_type: INT64
+          - name: status_code
+            data_type: INT64
+          - name: url
+            data_type: STRING
+          - name: key_type
+            data_type: STRING
+          - name: key
+            data_type: STRING
+          - name: usd_value
+            data_type: FLOAT64
+          - name: txs
+            data_type: INT64
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+          - name: amount
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: decimals
+            data_type: INT64
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+      - name: raw_source_defilamma_bridges
+        identifier: source_defilamma_bridges
+        columns:
+          - name: id
+            data_type: INT64
+          - name: name
+            data_type: STRING
+          - name: display_name
+            data_type: STRING
+          - name: icon
+            data_type: STRING
+          - name: volume_prev_day
+            data_type: FLOAT64
+          - name: volume_prev2_day
+            data_type: FLOAT64
+          - name: last_hourly_volume
+            data_type: FLOAT64
+          - name: current_day_volume
+            data_type: FLOAT64
+          - name: last_daily_volume
+            data_type: FLOAT64
+          - name: day_before_last_volume
+            data_type: FLOAT64
+          - name: weekly_volume
+            data_type: FLOAT64
+          - name: monthly_volume
+            data_type: FLOAT64
+          - name: chains
+            data_type: JSON
+          - name: destination_chain
+            data_type: STRING
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+      - name: raw_stg__inputs_connext_routes_working_pathways
+        identifier: stg__inputs_connext_routes_working_pathways
+        columns:
+          - name: fromChainId
+            data_type: INT64
+          - name: toChainId
+            data_type: INT64
+          - name: fromAmount
+            data_type: FLOAT64
+          - name: fromTokenAddress
+            data_type: STRING
+          - name: toTokenAddress
+            data_type: STRING
+          - name: fromAddress
+            data_type: STRING
+          - name: aggregator
+            data_type: STRING
+      - name: raw_source_socket__routes_steps
+        identifier: source_socket__routes_steps
+        columns:
+          - name: type
+            data_type: STRING
+          - name: fromchainid
+            data_type: FLOAT64
+          - name: fromamount
+            data_type: STRING
+          - name: tochainid
+            data_type: FLOAT64
+          - name: minamountout
+            data_type: STRING
+          - name: toamount
+            data_type: STRING
+          - name: bridgeslippage
+            data_type: FLOAT64
+          - name: servicetime
+            data_type: FLOAT64
+          - name: maxservicetime
+            data_type: FLOAT64
+          - name: step_id
+            data_type: INT64
+          - name: route_id
+            data_type: STRING
+          - name: routepath
+            data_type: STRING
+          - name: usertxindex
+            data_type: INT64
+          - name: protocol_name
+            data_type: STRING
+          - name: protocol_displayname
+            data_type: STRING
+          - name: protocol_icon
+            data_type: STRING
+          - name: protocol_securityscore
+            data_type: FLOAT64
+          - name: protocol_robustnessscore
+            data_type: FLOAT64
+          - name: fromasset_chainid
+            data_type: INT64
+          - name: fromasset_address
+            data_type: STRING
+          - name: fromasset_symbol
+            data_type: STRING
+          - name: fromasset_name
+            data_type: STRING
+          - name: fromasset_decimals
+            data_type: INT64
+          - name: fromasset_icon
+            data_type: STRING
+          - name: fromasset_logouri
+            data_type: STRING
+          - name: fromasset_chainagnosticid
+            data_type: STRING
+          - name: toasset_chainid
+            data_type: INT64
+          - name: toasset_address
+            data_type: STRING
+          - name: toasset_symbol
+            data_type: STRING
+          - name: toasset_name
+            data_type: STRING
+          - name: toasset_decimals
+            data_type: INT64
+          - name: toasset_icon
+            data_type: STRING
+          - name: toasset_logouri
+            data_type: STRING
+          - name: toasset_chainagnosticid
+            data_type: STRING
+          - name: protocolfees_amount
+            data_type: STRING
+          - name: protocolfees_asset_chainid
+            data_type: FLOAT64
+          - name: protocolfees_asset_address
+            data_type: STRING
+          - name: protocolfees_asset_symbol
+            data_type: STRING
+          - name: protocolfees_asset_name
+            data_type: STRING
+          - name: protocolfees_asset_decimals
+            data_type: FLOAT64
+          - name: protocolfees_asset_icon
+            data_type: STRING
+          - name: protocolfees_asset_logouri
+            data_type: STRING
+          - name: protocolfees_asset_chainagnosticid
+            data_type: STRING
+          - name: protocolfees_feesinusd
+            data_type: FLOAT64
+          - name: gasfees_gasamount
+            data_type: STRING
+          - name: gasfees_gaslimit
+            data_type: INT64
+          - name: gasfees_asset_chainid
+            data_type: INT64
+          - name: gasfees_asset_address
+            data_type: STRING
+          - name: gasfees_asset_symbol
+            data_type: STRING
+          - name: gasfees_asset_name
+            data_type: STRING
+          - name: gasfees_asset_decimals
+            data_type: INT64
+          - name: gasfees_asset_icon
+            data_type: STRING
+          - name: gasfees_asset_logouri
+            data_type: STRING
+          - name: gasfees_asset_chainagnosticid
+            data_type: STRING
+          - name: gasfees_feesinusd
+            data_type: FLOAT64
+          - name: extradata_rewards
+            data_type: STRING
+          - name: chainid
+            data_type: FLOAT64
+          - name: swapslippage
+            data_type: FLOAT64
+          - name: upload_datetime
+            data_type: TIMESTAMP
+      - name: raw_source_defilamma_chains
+        identifier: source_defilamma_chains
+        columns:
+          - name: gecko_id
+            data_type: STRING
+          - name: tvl
+            data_type: FLOAT64
+          - name: token_symbol
+            data_type: STRING
+          - name: cmc_id
+            data_type: STRING
+          - name: name
+            data_type: STRING
+          - name: chain_id
+            data_type: INT64
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+      - name: raw_source_defilamma_protocols
+        identifier: source_defilamma_protocols
+        columns:
+          - name: id
+            data_type: STRING
+          - name: name
+            data_type: STRING
+          - name: address
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: url
+            data_type: STRING
+          - name: description
+            data_type: STRING
+          - name: chain
+            data_type: STRING
+          - name: logo
+            data_type: STRING
+          - name: audits
+            data_type: STRING
+          - name: audit_note
+            data_type: STRING
+          - name: gecko_id
+            data_type: STRING
+          - name: cmc_id
+            data_type: STRING
+          - name: category
+            data_type: STRING
+          - name: chains
+            data_type: JSON
+          - name: module
+            data_type: STRING
+          - name: twitter
+            data_type: STRING
+          - name: forked_from
+            data_type: JSON
+          - name: oracles
+            data_type: JSON
+          - name: listed_at
+            data_type: INT64
+          - name: slug
+            data_type: STRING
+          - name: tvl
+            data_type: FLOAT64
+          - name: chain_tvls
+            data_type: JSON
+          - name: change_1h
+            data_type: FLOAT64
+          - name: change_1d
+            data_type: FLOAT64
+          - name: change_7d
+            data_type: FLOAT64
+          - name: token_breakdowns
+            data_type: JSON
+          - name: mcap
+            data_type: FLOAT64
+          - name: referral_url
+            data_type: STRING
+          - name: treasury
+            data_type: STRING
+          - name: audit_links
+            data_type: JSON
+          - name: open_source
+            data_type: STRING
+          - name: governance_id
+            data_type: JSON
+          - name: github
+            data_type: JSON
+          - name: stablecoins
+            data_type: JSON
+          - name: parent_protocol
+            data_type: STRING
+          - name: wrong_liquidity
+            data_type: STRING
+          - name: staking
+            data_type: STRING
+          - name: pool2
+            data_type: STRING
+          - name: asset_token
+            data_type: STRING
+          - name: language
+            data_type: STRING
+          - name: oracles_by_chain
+            data_type: JSON
+          - name: dead_url
+            data_type: BOOL
+          - name: rugged
+            data_type: BOOL
+          - name: methodology
+            data_type: STRING
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+          - name: hallmarks
+            data_type: JSON
+          - name: misrepresented_tokens
+            data_type: BOOL
+          - name: dead_from
+            data_type: INT64
+          - name: dead_from__v_text
+            data_type: STRING
+      - name: raw_source_socket__tokens
+        identifier: source_socket__tokens
+        columns:
+          - name: chainId
+            data_type: INT64
+          - name: address
+            data_type: STRING
+          - name: name
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: decimals
+            data_type: FLOAT64
+          - name: logoURI
+            data_type: STRING
+      - name: raw__dlt_pipeline_state
+        identifier: _dlt_pipeline_state
+        columns:
+          - name: version
+            data_type: INT64
+          - name: engine_version
+            data_type: INT64
+          - name: pipeline_name
+            data_type: STRING
+          - name: state
+            data_type: STRING
+          - name: created_at
+            data_type: TIMESTAMP
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+          - name: version_hash
+            data_type: STRING
+      - name: raw_stg_source_lifi_socket__routes__optimized_by_pathways
+        identifier: stg_source_lifi_socket__routes__optimized_by_pathways
+        columns:
+          - name: date
+            data_type: TIMESTAMP
+          - name: aggregator
+            data_type: STRING
+          - name: route_fromchainid
+            data_type: STRING
+          - name: route_tochainid
+            data_type: STRING
+          - name: route_fromtoken_symbol
+            data_type: STRING
+          - name: route_totoken_symbol
+            data_type: STRING
+          - name: inputvalueinusd
+            data_type: FLOAT64
+          - name: outputvalueinusd
+            data_type: FLOAT64
+          - name: totalgasfeesinusd
+            data_type: FLOAT64
+          - name: receivedvalueinusd
+            data_type: FLOAT64
+          - name: usedbridgenames
+            data_type: STRING
+          - name: totalusertx
+            data_type: FLOAT64
+          - name: max_value_rank_by_output
+            data_type: INT64
+          - name: connext_outputvalueinusd
+            data_type: FLOAT64
+          - name: connext_totalgasfeesinusd
+            data_type: FLOAT64
+          - name: connext_receivedvalueinusd
+            data_type: FLOAT64
+          - name: connext_max_value_rank_by_output
+            data_type: INT64
+      - name: raw_source_chaindata_nija__metadata
+        identifier: source_chaindata_nija__metadata
+        columns:
+          - name: name
+            description: ""
+            data_type: STRING
+          - name: chainid
+            description: ""
+            data_type: INT64
+          - name: domainid
+            description: ""
+            data_type: STRING
+          - name: confirmations
+            description: ""
+            data_type: INT64
+          - name: shortname
+            description: ""
+            data_type: STRING
+          - name: type
+            description: ""
+            data_type: STRING
+          - name: rpc
+            description: ""
+            data_type: STRING
+          - name: subgraph
+            description: ""
+            data_type: STRING
+          - name: analyticssubgraph
+            description: ""
+            data_type: STRING
+          - name: faucets
+            description: ""
+            data_type: STRING
+          - name: gasstations
+            description: ""
+            data_type: STRING
+          - name: explorers
+            description: ""
+            data_type: STRING
+          - name: nativecurrency_name
+            description: ""
+            data_type: STRING
+          - name: nativecurrency_symbol
+            description: ""
+            data_type: STRING
+          - name: nativecurrency_decimals
+            description: ""
+            data_type: FLOAT64
+          - name: subgraphs_runtime
+            description: ""
+            data_type: STRING
+          - name: subgraphs_analytics
+            description: ""
+            data_type: STRING
+          - name: gasestimates_prepare
+            description: ""
+            data_type: STRING
+          - name: gasestimates_fulfill
+            description: ""
+            data_type: STRING
+          - name: gasestimates_cancel
+            description: ""
+            data_type: STRING
+          - name: gasestimates_removeliquidity
+            description: ""
+            data_type: STRING
+          - name: gasestimates_prepareroutercontract
+            description: ""
+            data_type: STRING
+          - name: gasestimates_fulfillroutercontract
+            description: ""
+            data_type: STRING
+          - name: gasestimates_cancelroutercontract
+            description: ""
+            data_type: STRING
+          - name: gasestimates_removeliquidityroutercontract
+            description: ""
+            data_type: STRING
+          - name: gasestimates_preparel1
+            description: ""
+            data_type: STRING
+          - name: gasestimates_fulfilll1
+            description: ""
+            data_type: STRING
+          - name: gasestimates_cancell1
+            description: ""
+            data_type: STRING
+          - name: gasestimates_removeliquidityl1
+            description: ""
+            data_type: STRING
+          - name: gasestimates_gaspricefactor
+            description: ""
+            data_type: STRING
+          - name: watchtower_testnet
+            description: ""
+            data_type: STRING
+          - name: watchtower_mainnet
+            description: ""
+            data_type: STRING
+          - name: network
+            description: ""
+            data_type: STRING
+          - name: gasestimates_execute
+            description: ""
+            data_type: STRING
+          - name: networkid
+            description: ""
+            data_type: FLOAT64
+          - name: infourl
+            description: ""
+            data_type: STRING
+          - name: gasestimates_executel1
+            description: ""
+            data_type: STRING
+          - name: chain
+            description: ""
+            data_type: STRING
+          - name: asset_key
+            description: ""
+            data_type: STRING
+          - name: asset_symbol
+            description: ""
+            data_type: STRING
+          - name: asset_mainnetequivalent
+            description: ""
+            data_type: STRING
+          - name: asset_decimals
+            description: ""
+            data_type: FLOAT64
+          - name: asset_coingeckoid
+            description: ""
+            data_type: STRING
+          - name: asset_name
+            description: ""
+            data_type: STRING
+          - name: asset_issingleminter
+            description: ""
+            data_type: STRING
+          - name: gasestimates_proveandprocess
+            data_type: STRING
+          - name: gasestimates_messaging
+            data_type: STRING
+          - name: gasestimates_proveandprocessl1
+            data_type: STRING
+      - name: raw_source_defilamma_bridges_history_wallets
+        identifier: source_defilamma_bridges_history_wallets
+        columns:
+          - name: date
+            data_type: INT64
+          - name: status_code
+            data_type: INT64
+          - name: url
+            data_type: STRING
+          - name: key_type
+            data_type: STRING
+          - name: key
+            data_type: STRING
+          - name: usd_value
+            data_type: FLOAT64
+          - name: txs
+            data_type: INT64
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+          - name: amount
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: decimals
+            data_type: INT64
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+      - name: raw_defilamma_stables
+        identifier: defilamma_stables
+        columns:
+          - name: id
+            data_type: INT64
+          - name: name
+            data_type: STRING
+          - name: symbol
+            data_type: STRING
+          - name: gecko_id
+            data_type: STRING
+          - name: peg_type
+            data_type: STRING
+          - name: peg_mechanism
+            data_type: STRING
+          - name: circulating
+            data_type: FLOAT64
+          - name: circulating_prev_day
+            data_type: FLOAT64
+          - name: circulating_prev_week
+            data_type: FLOAT64
+          - name: circulating_prev_month
+            data_type: FLOAT64
+          - name: price
+            data_type: FLOAT64
+          - name: delisted
+            data_type: STRING
+          - name: chains
+            data_type: JSON
+          - name: _dlt_load_id
+            data_type: STRING
+          - name: _dlt_id
+            data_type: STRING
+          - name: upload_timestamp
+            data_type: TIMESTAMP
+      - name: raw_dim_connext_routers_name
+        identifier: dim_connext_routers_name
+        columns:
+          - name: router
+            data_type: STRING
+          - name: name
+            data_type: STRING
+      - name: raw_stg__ninja_connext_prod_chains_tokens_clean
+        identifier: stg__ninja_connext_prod_chains_tokens_clean
+        columns:
+          - name: chain_name
+            data_type: STRING
+          - name: domainid
+            data_type: STRING
+          - name: asset_symbol
+            data_type: STRING
+          - name: asset
+            data_type: STRING
+          - name: canonical_asset_address
+            data_type: STRING
+          - name: local
+            data_type: STRING
+          - name: adopted
+            data_type: STRING
+          - name: asset_decimals
+            data_type: INT64

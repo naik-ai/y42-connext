@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: github_tokens
+    config:
+      y42_source:
+        type: source-github
+        connection: Github_connext_chaindata
+        settings:
+          start_date: null
+          api_url: https://api.github.com/
+          branches: []
+          requests_per_hour: null
+      y42:
+        apiVersion: v3
+    meta:
+      experts:
+        users:
+          - anton@connext.network

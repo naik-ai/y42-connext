@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: slippage_historical1
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+    columns:
+      - name: domain_id
+        data_type: STRING
+      - name: asset
+        data_type: STRING
+      - name: amount
+        data_type: STRING
+      - name: slippage
+        data_type: FLOAT64
+      - name: timestamp
+        data_type: TIMESTAMP
+      - name: row_hash
+        data_type: BYTES

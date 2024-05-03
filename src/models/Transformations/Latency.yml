@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: latency
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - liquidity
+    columns:
+      - name: status
+        data_type: STRING
+      - name: origin_transacting_asset
+        data_type: STRING
+      - name: origin_domain
+        data_type: STRING
+      - name: destination_transacting_asset
+        data_type: STRING
+      - name: destination_domain
+        data_type: STRING
+      - name: xcall_date
+        data_type: STRING
+      - name: count
+        data_type: INT64
+      - name: count_bumped_transfers
+        data_type: INT64
+      - name: sum_bumped_transfers
+        data_type: FLOAT64
+      - name: count_txns_non_sla
+        data_type: INT64
+      - name: sum_txns_non_sla
+        data_type: FLOAT64
+      - name: total_usd_amount
+        data_type: FLOAT64
+      - name: sum_normalized_in
+        data_type: NUMERIC
+      - name: avg_ttv
+        data_type: FLOAT64
+      - name: max_ttv
+        data_type: INT64
+      - name: min_ttv
+        data_type: INT64
+      - name: median_ttv
+        data_type: INT64
+      - name: per10th_ttv
+        data_type: INT64
+      - name: per80th_ttv
+        data_type: INT64
+      - name: per90th_ttv
+        data_type: INT64
+      - name: per95th_ttv
+        data_type: INT64
+      - name: per99th_ttv
+        data_type: INT64
+      - name: median_ttr
+        data_type: INT64
+      - name: per10th_ttr
+        data_type: INT64
+      - name: per80th_ttr
+        data_type: INT64
+      - name: per90th_ttr
+        data_type: INT64
+      - name: per95th_ttr
+        data_type: INT64
+      - name: per99th_ttr
+        data_type: INT64

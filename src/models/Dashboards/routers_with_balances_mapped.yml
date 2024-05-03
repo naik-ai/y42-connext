@@ -1,0 +1,105 @@
+version: 2
+
+models:
+  - name: routers_with_balances_mapped
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - liquidity
+        - dashboard
+    columns:
+      - name: asset_usd_price
+        description: ""
+        data_type: FLOAT64
+      - name: balance_usd
+        description: ""
+        data_type: FLOAT64
+      - name: locked_usd
+        description: ""
+        data_type: FLOAT64
+      - name: removed_usd
+        description: ""
+        data_type: FLOAT64
+      - name: supplied_usd
+        description: ""
+        data_type: FLOAT64
+      - name: fee_earned_usd
+        description: ""
+        data_type: FLOAT64
+      - name: destination_domain_name
+        description: ""
+        data_type: STRING
+      - name: asset_name
+        description: ""
+        data_type: STRING
+      - name: router_name
+        description: ""
+        data_type: STRING
+      - name: address
+        description: ""
+        data_type: STRING
+      - name: adopted
+        description: ""
+        data_type: STRING
+      - name: adopted_decimal
+        description: ""
+        data_type: FLOAT64
+      - name: asset_canonical_id
+        description: ""
+        data_type: STRING
+      - name: asset_domain
+        description: ""
+        data_type: STRING
+      - name: balance
+        description: ""
+        data_type: FLOAT64
+      - name: canonical_domain
+        description: ""
+        data_type: STRING
+      - name: canonical_id
+        description: ""
+        data_type: STRING
+      - name: decimal
+        description: ""
+        data_type: FLOAT64
+      - name: domain
+        description: ""
+        data_type: STRING
+      - name: fees_earned
+        description: ""
+        data_type: FLOAT64
+      - name: id
+        description: ""
+        data_type: STRING
+      - name: key
+        description: ""
+        data_type: STRING
+      - name: local
+        description: ""
+        data_type: STRING
+      - name: locked
+        description: ""
+        data_type: FLOAT64
+      - name: removed
+        description: ""
+        data_type: FLOAT64
+      - name: router_address
+        description: ""
+        data_type: STRING
+      - name: supplied
+        description: ""
+        data_type: FLOAT64
+      - name: ETH_price
+        description: ""
+        data_type: FLOAT64
+      - name: last_bid
+        data_type: STRING
+      - name: last_bid_time
+        data_type: STRING
+      - name: Active
+        data_type: STRING

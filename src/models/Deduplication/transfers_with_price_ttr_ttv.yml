@@ -1,0 +1,150 @@
+version: 2
+
+models:
+  - name: transfers_with_price_ttr_ttv_y42_dedup
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - liquidity
+    columns:
+      - name: asset_usd_price
+        data_type: FLOAT64
+      - name: backoff
+        data_type: INT64
+      - name: bridged_amt
+        data_type: STRING
+      - name: call_data
+        data_type: STRING
+      - name: canonical_domain
+        data_type: STRING
+      - name: canonical_id
+        data_type: STRING
+      - name: decimals
+        data_type: FLOAT64
+      - name: delegate
+        data_type: STRING
+      - name: destination_chain
+        data_type: STRING
+      - name: destination_domain
+        data_type: STRING
+      - name: destination_local_amount
+        data_type: STRING
+      - name: destination_local_asset
+        data_type: STRING
+      - name: destination_transacting_amount
+        data_type: STRING
+      - name: destination_transacting_asset
+        data_type: STRING
+      - name: error_message
+        data_type: STRING
+      - name: error_status
+        data_type: STRING
+      - name: execute_block_number
+        data_type: INT64
+      - name: execute_caller
+        data_type: STRING
+      - name: execute_gas_limit
+        data_type: STRING
+      - name: execute_gas_price
+        data_type: STRING
+      - name: execute_origin_sender
+        data_type: STRING
+      - name: execute_simulation_from
+        data_type: STRING
+      - name: execute_simulation_input
+        data_type: STRING
+      - name: execute_simulation_network
+        data_type: STRING
+      - name: execute_simulation_to
+        data_type: STRING
+      - name: execute_timestamp
+        data_type: INT64
+      - name: execute_transaction_hash
+        data_type: STRING
+      - name: execute_tx_origin
+        data_type: STRING
+      - name: message_hash
+        data_type: STRING
+      - name: message_status
+        data_type: STRING
+      - name: next_execution_timestamp
+        data_type: INT64
+      - name: nonce
+        data_type: INT64
+      - name: normalized_in
+        data_type: STRING
+      - name: origin_bridged_amount
+        data_type: STRING
+      - name: origin_bridged_asset
+        data_type: STRING
+      - name: origin_chain
+        data_type: STRING
+      - name: origin_domain
+        data_type: STRING
+      - name: origin_sender
+        data_type: STRING
+      - name: origin_transacting_amount
+        data_type: STRING
+      - name: origin_transacting_asset
+        data_type: STRING
+      - name: receive_local
+        data_type: BOOL
+      - name: reconcile_block_number
+        data_type: INT64
+      - name: reconcile_caller
+        data_type: STRING
+      - name: reconcile_gas_limit
+        data_type: STRING
+      - name: reconcile_gas_price
+        data_type: STRING
+      - name: reconcile_timestamp
+        data_type: INT64
+      - name: reconcile_transaction_hash
+        data_type: STRING
+      - name: reconcile_tx_origin
+        data_type: STRING
+      - name: relayer_fees
+        data_type: STRING
+      - name: router_fee
+        data_type: STRING
+      - name: routers
+        data_type: STRING
+      - name: slippage
+        data_type: FLOAT64
+      - name: status
+        data_type: STRING
+      - name: to
+        data_type: STRING
+      - name: transfer_id
+        data_type: STRING
+      - name: update_time
+        data_type: TIMESTAMP
+      - name: updated_slippage
+        data_type: FLOAT64
+      - name: usd_amount
+        data_type: FLOAT64
+      - name: xcall_block_number
+        data_type: INT64
+      - name: xcall_caller
+        data_type: STRING
+      - name: xcall_gas_limit
+        data_type: STRING
+      - name: xcall_gas_price
+        data_type: STRING
+      - name: xcall_timestamp
+        data_type: INT64
+      - name: xcall_transaction_hash
+        data_type: STRING
+      - name: xcall_tx_origin
+        data_type: STRING
+      - name: ttv
+        data_type: INT64
+      - name: ttr
+        data_type: INT64
+      - name: row_num
+        data_type: INT64

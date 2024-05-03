@@ -1,0 +1,8 @@
+version: 2
+
+orchestrations:
+  - name: weekly_full_refresh
+    config:
+      enabled: true
+      command: y42 build --exclude slippage_historical --full-refresh
+      cron: 0 1 * * SUN

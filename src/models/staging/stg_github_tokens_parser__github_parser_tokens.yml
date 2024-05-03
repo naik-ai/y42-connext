@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: stg_github_tokens_parser__github_parser_tokens
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+      tags: []
+    columns:
+      - name: name
+        data_type: STRING
+      - name: chainid
+        data_type: INT64
+      - name: domainid
+        data_type: STRING
+      - name: confirmations
+        data_type: INT64
+      - name: shortname
+        data_type: STRING
+      - name: nativecurrency
+        data_type: STRING
+      - name: type
+        data_type: STRING
+      - name: rpc
+        data_type: STRING
+      - name: subgraphs
+        data_type: STRING
+      - name: subgraph
+        data_type: STRING
+      - name: analyticssubgraph
+        data_type: STRING
+      - name: faucets
+        data_type: STRING
+      - name: gasstations
+        data_type: STRING
+      - name: explorers
+        data_type: STRING
+      - name: gasestimates
+        data_type: STRING
+      - name: watchtower
+        data_type: STRING
+      - name: network
+        data_type: STRING
+      - name: networkid
+        data_type: STRING
+      - name: infourl
+        data_type: STRING
+      - name: chain
+        data_type: STRING
+      - name: nativecurrency_name
+        data_type: STRING
+      - name: nativecurrency_symbol
+        data_type: STRING
+      - name: nativecurrency_decimals
+        data_type: STRING
+      - name: assetid_symbol
+        data_type: STRING
+      - name: assetid_mainnetequivalent
+        data_type: STRING
+      - name: assetid_decimals
+        data_type: STRING
+      - name: assetid_coingeckoid
+        data_type: STRING
+      - name: assetid
+        data_type: STRING
+      - name: assetid_name
+        data_type: STRING
+      - name: assetid_issingleminter
+        data_type: STRING

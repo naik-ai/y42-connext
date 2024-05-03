@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: Mode
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1

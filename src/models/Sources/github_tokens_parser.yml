@@ -1,0 +1,156 @@
+version: 2
+
+sources:
+  - name: github_tokens_parser
+    config:
+      y42_source:
+        type: python-ingest
+      y42:
+        apiVersion: v3
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    tables:
+      - name: github_parser_chains
+        columns:
+          - name: name
+            data_type: STRING
+          - name: chainid
+            data_type: INTEGER
+          - name: domainid
+            data_type: STRING
+          - name: confirmations
+            data_type: INTEGER
+          - name: shortname
+            data_type: STRING
+          - name: nativecurrency
+            data_type: STRING
+          - name: type
+            data_type: STRING
+          - name: assetid
+            data_type: STRING
+          - name: rpc
+            data_type: STRING
+          - name: subgraphs
+            data_type: STRING
+          - name: subgraph
+            data_type: STRING
+          - name: analyticssubgraph
+            data_type: STRING
+          - name: faucets
+            data_type: STRING
+          - name: gasstations
+            data_type: STRING
+          - name: explorers
+            data_type: STRING
+          - name: gasestimates
+            data_type: STRING
+          - name: watchtower
+            data_type: STRING
+          - name: network
+            data_type: STRING
+          - name: networkid
+            data_type: FLOAT
+          - name: infourl
+            data_type: STRING
+          - name: chain
+            data_type: STRING
+          - name: nativecurrency_name
+            data_type: STRING
+          - name: nativecurrency_symbol
+            data_type: STRING
+          - name: nativecurrency_decimals
+            data_type: FLOAT
+      - name: github_parser_tokens
+        columns:
+          - name: name
+            description: ""
+            data_type: STRING
+          - name: chainid
+            description: ""
+            data_type: INTEGER
+          - name: domainid
+            description: ""
+            data_type: STRING
+          - name: confirmations
+            description: ""
+            data_type: INTEGER
+          - name: shortname
+            description: ""
+            data_type: STRING
+          - name: nativecurrency
+            description: ""
+            data_type: STRING
+          - name: type
+            description: ""
+            data_type: STRING
+          - name: rpc
+            description: ""
+            data_type: STRING
+          - name: subgraphs
+            description: ""
+            data_type: STRING
+          - name: subgraph
+            description: ""
+            data_type: STRING
+          - name: analyticssubgraph
+            description: ""
+            data_type: STRING
+          - name: faucets
+            description: ""
+            data_type: STRING
+          - name: gasstations
+            description: ""
+            data_type: STRING
+          - name: explorers
+            description: ""
+            data_type: STRING
+          - name: gasestimates
+            description: ""
+            data_type: STRING
+          - name: watchtower
+            description: ""
+            data_type: STRING
+          - name: network
+            description: ""
+            data_type: STRING
+          - name: networkid
+            description: ""
+            data_type: STRING
+          - name: infourl
+            description: ""
+            data_type: STRING
+          - name: chain
+            description: ""
+            data_type: STRING
+          - name: nativecurrency_name
+            description: ""
+            data_type: STRING
+          - name: nativecurrency_symbol
+            description: ""
+            data_type: STRING
+          - name: nativecurrency_decimals
+            description: ""
+            data_type: STRING
+          - name: assetid_symbol
+            description: ""
+            data_type: STRING
+          - name: assetid_mainnetequivalent
+            description: ""
+            data_type: STRING
+          - name: assetid_decimals
+            description: ""
+            data_type: STRING
+          - name: assetid_coingeckoid
+            description: ""
+            data_type: STRING
+          - name: assetid
+            description: ""
+            data_type: STRING
+          - name: assetid_name
+            description: ""
+            data_type: STRING
+          - name: assetid_issingleminter
+            description: ""
+            data_type: STRING

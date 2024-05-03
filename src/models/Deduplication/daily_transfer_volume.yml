@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: daily_transfer_volume_y42_dedup
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - liquidity
+    columns:
+      - name: asset
+        data_type: STRING
+      - name: avg_price
+        data_type: FLOAT64
+      - name: destination_chain
+        data_type: STRING
+      - name: id
+        data_type: INT64
+      - name: origin_chain
+        data_type: STRING
+      - name: router
+        data_type: STRING
+      - name: status
+        data_type: STRING
+      - name: transfer_date
+        data_type: DATE
+      - name: usd_volume
+        data_type: FLOAT64
+      - name: volume
+        data_type: FLOAT64
+      - name: ROW_NUM
+        data_type: INT64

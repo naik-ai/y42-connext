@@ -1,0 +1,556 @@
+version: 2
+
+sources:
+  - name: bq_stage
+    config:
+      y42:
+        apiVersion: v3
+    meta:
+      experts:
+        users:
+          - anton@connext.network
+    database: mainnet-bigq
+    schema: stage
+    tables:
+      - name: stage_connext_tokens
+        identifier: connext_tokens
+        columns:
+          - name: mixed_address
+            data_type: STRING
+          - name: token_address
+            data_type: STRING
+          - name: token_name
+            data_type: STRING
+          - name: is_xerc20
+            data_type: STRING
+      - name: stage_source__lifi_routes__payloads_logs
+        identifier: source__lifi_routes__payloads_logs
+        columns:
+          - name: fromchainid
+            data_type: INT64
+          - name: tochainid
+            data_type: INT64
+          - name: fromamount
+            data_type: STRING
+          - name: fromtokenaddress
+            data_type: STRING
+          - name: totokenaddress
+            data_type: STRING
+          - name: fromaddress
+            data_type: STRING
+          - name: allowdestinationcall
+            data_type: STRING
+          - name: status_code
+            data_type: INT64
+          - name: aggregator
+            data_type: STRING
+          - name: upload_datetime
+            data_type: TIMESTAMP
+      - name: stage_source_hop_explorer__transfers
+        identifier: source_hop_explorer__transfers
+        columns:
+          - name: id
+            data_type: STRING
+          - name: transferid
+            data_type: STRING
+          - name: transactionhash
+            data_type: STRING
+          - name: sourcechainid
+            data_type: INT64
+          - name: destinationchainid
+            data_type: INT64
+          - name: accountaddress
+            data_type: STRING
+          - name: amount
+            data_type: STRING
+          - name: amountusd
+            data_type: FLOAT64
+          - name: amountusddisplay
+            data_type: STRING
+          - name: amountoutmin
+            data_type: STRING
+          - name: deadline
+            data_type: INT64
+          - name: recipientaddress
+            data_type: STRING
+          - name: bonderfee
+            data_type: STRING
+          - name: bonderfeeusd
+            data_type: FLOAT64
+          - name: bonderfeeusddisplay
+            data_type: STRING
+          - name: bonded
+            data_type: BOOL
+          - name: bondtimestamp
+            data_type: INT64
+          - name: bondtimestampiso
+            data_type: STRING
+          - name: bondwithintimestamp
+            data_type: FLOAT64
+          - name: bondtransactionhash
+            data_type: STRING
+          - name: bonderaddress
+            data_type: STRING
+          - name: token
+            data_type: STRING
+          - name: tokenpriceusd
+            data_type: FLOAT64
+          - name: tokenpriceusddisplay
+            data_type: STRING
+          - name: timestamp
+            data_type: INT64
+          - name: preregenesis
+            data_type: BOOL
+          - name: receivedhtokens
+            data_type: BOOL
+          - name: unbondable
+            data_type: BOOL
+          - name: amountreceived
+            data_type: STRING
+          - name: amountreceivedformatted
+            data_type: STRING
+          - name: origincontractaddress
+            data_type: STRING
+          - name: integrationpartner
+            data_type: STRING
+          - name: integrationpartnercontractaddress
+            data_type: STRING
+          - name: accountaddresstruncated
+            data_type: STRING
+          - name: transactionhashtruncated
+            data_type: STRING
+          - name: transferidtruncated
+            data_type: STRING
+          - name: timestampiso
+            data_type: STRING
+          - name: relativetimestamp
+            data_type: STRING
+          - name: sourcechainslug
+            data_type: STRING
+          - name: destinationchainslug
+            data_type: STRING
+          - name: sourcechainname
+            data_type: STRING
+          - name: destinationchainname
+            data_type: STRING
+          - name: sourcechainimageurl
+            data_type: STRING
+          - name: destinationchainimageurl
+            data_type: STRING
+          - name: transactionhashexplorerurl
+            data_type: STRING
+          - name: bondtransactionhashexplorerurl
+            data_type: STRING
+          - name: accountaddressexplorerurl
+            data_type: STRING
+          - name: recipientaddresstruncated
+            data_type: STRING
+          - name: recipientaddressexplorerurl
+            data_type: STRING
+          - name: bonderaddresstruncated
+            data_type: STRING
+          - name: bonderaddressexplorerurl
+            data_type: STRING
+          - name: bondtransactionhashtruncated
+            data_type: STRING
+          - name: receivestatusunknown
+            data_type: BOOL
+          - name: relativebondedtimestamp
+            data_type: STRING
+          - name: bondwithintimestamprelative
+            data_type: STRING
+          - name: amountformatted
+            data_type: FLOAT64
+          - name: amountdisplay
+            data_type: STRING
+          - name: bonderfeeformatted
+            data_type: FLOAT64
+          - name: bonderfeedisplay
+            data_type: STRING
+          - name: tokenimageurl
+            data_type: STRING
+          - name: i
+            data_type: INT64
+          - name: amountoutminformatted
+            data_type: FLOAT64
+          - name: timestamprelative
+            data_type: STRING
+          - name: bondtimestamprelative
+            data_type: STRING
+          - name: sourcechaincolor
+            data_type: STRING
+          - name: destinationchaincolor
+            data_type: STRING
+          - name: bondstatuscolor
+            data_type: STRING
+          - name: converthtokenurl
+            data_type: STRING
+          - name: hopexplorerurl
+            data_type: STRING
+          - name: integrationpartnername
+            data_type: STRING
+          - name: integrationpartnerimageurl
+            data_type: STRING
+          - name: estimatedunixtimeuntilbond
+            data_type: INT64
+          - name: estimatedsecondsuntilbond
+            data_type: INT64
+          - name: estimatedrelativetimeuntilbond
+            data_type: INT64
+          - name: request_url
+            data_type: STRING
+      - name: stage_source_lifi__bridges_exchanges
+        identifier: source_lifi__bridges_exchanges
+        columns:
+          - name: key
+            data_type: STRING
+          - name: name
+            data_type: STRING
+          - name: logoURI
+            data_type: STRING
+          - name: source
+            data_type: STRING
+          - name: fromChainId
+            data_type: FLOAT64
+          - name: toChainId
+            data_type: FLOAT64
+      - name: stage_source_lifi__chains
+        identifier: source_lifi__chains
+        columns:
+          - name: key
+            data_type: STRING
+          - name: chainType
+            data_type: STRING
+          - name: name
+            data_type: STRING
+          - name: coin
+            data_type: STRING
+          - name: id
+            data_type: INT64
+          - name: mainnet
+            data_type: BOOL
+          - name: logoURI
+            data_type: STRING
+          - name: tokenlistUrl
+            data_type: STRING
+          - name: multicallAddress
+            data_type: STRING
+          - name: metamask_chainId
+            data_type: STRING
+          - name: metamask_blockExplorerUrls
+            data_type: STRING
+          - name: metamask_chainName
+            data_type: STRING
+          - name: metamask_nativeCurrency_name
+            data_type: STRING
+          - name: metamask_nativeCurrency_symbol
+            data_type: STRING
+          - name: metamask_nativeCurrency_decimals
+            data_type: INT64
+          - name: metamask_rpcUrls
+            data_type: STRING
+          - name: nativeToken_address
+            data_type: STRING
+          - name: nativeToken_chainId
+            data_type: INT64
+          - name: nativeToken_symbol
+            data_type: STRING
+          - name: nativeToken_decimals
+            data_type: INT64
+          - name: nativeToken_name
+            data_type: STRING
+          - name: nativeToken_coinKey
+            data_type: STRING
+          - name: nativeToken_logoURI
+            data_type: STRING
+          - name: nativeToken_priceUSD
+            data_type: STRING
+          - name: faucetUrls
+            data_type: STRING
+      - name: stage_source_lifi__connections
+        identifier: source_lifi__connections
+        columns:
+          - name: fromChainId
+            data_type: INT64
+          - name: toChainId
+            data_type: INT64
+          - name: from_address
+            data_type: STRING
+          - name: from_chainId
+            data_type: INT64
+          - name: from_symbol
+            data_type: STRING
+          - name: from_decimals
+            data_type: INT64
+          - name: from_name
+            data_type: STRING
+          - name: from_coinKey
+            data_type: STRING
+          - name: from_logoURI
+            data_type: STRING
+          - name: from_priceUSD
+            data_type: STRING
+          - name: to_address
+            data_type: STRING
+          - name: to_chainId
+            data_type: INT64
+          - name: to_symbol
+            data_type: STRING
+          - name: to_decimals
+            data_type: INT64
+          - name: to_name
+            data_type: STRING
+          - name: to_coinKey
+            data_type: STRING
+          - name: to_logoURI
+            data_type: STRING
+          - name: to_priceUSD
+            data_type: STRING
+      - name: stage_source_lifi__pathways
+        identifier: source_lifi__pathways
+        columns:
+          - name: fromChainId
+            data_type: STRING
+          - name: fromTokenAddress
+            data_type: STRING
+          - name: toChainId
+            data_type: STRING
+          - name: toTokenAddress
+            data_type: STRING
+          - name: fromAmount
+            data_type: STRING
+          - name: aggregator
+            data_type: STRING
+      - name: stage_source_lifi__tokens
+        identifier: source_lifi__tokens
+        columns:
+          - name: address
+            data_type: STRING
+          - name: chainId
+            data_type: INT64
+          - name: symbol
+            data_type: STRING
+          - name: decimals
+            data_type: INT64
+          - name: name
+            data_type: STRING
+          - name: coinKey
+            data_type: STRING
+          - name: logoURI
+            data_type: STRING
+          - name: priceUSD
+            data_type: STRING
+      - name: stage_source_lifi__tools
+        identifier: source_lifi__tools
+        columns:
+          - name: fromChainId
+            data_type: INT64
+          - name: toChainId
+            data_type: INT64
+      - name: stage_source_lifi__routes
+        identifier: source_lifi__routes
+        columns:
+          - name: type
+            data_type: STRING
+          - name: id
+            data_type: STRING
+          - name: tool
+            data_type: STRING
+          - name: includedsteps
+            data_type: STRING
+          - name: integrator
+            data_type: STRING
+          - name: tooldetails_key
+            data_type: STRING
+          - name: tooldetails_name
+            data_type: STRING
+          - name: tooldetails_logouri
+            data_type: STRING
+          - name: action_fromtoken_address
+            data_type: STRING
+          - name: action_fromtoken_chainid
+            data_type: FLOAT64
+          - name: action_fromtoken_symbol
+            data_type: STRING
+          - name: action_fromtoken_decimals
+            data_type: FLOAT64
+          - name: action_fromtoken_name
+            data_type: STRING
+          - name: action_fromtoken_coinkey
+            data_type: STRING
+          - name: action_fromtoken_logouri
+            data_type: STRING
+          - name: action_fromtoken_priceusd
+            data_type: STRING
+          - name: action_fromamount
+            data_type: STRING
+          - name: action_totoken_address
+            data_type: STRING
+          - name: action_totoken_chainid
+            data_type: FLOAT64
+          - name: action_totoken_symbol
+            data_type: STRING
+          - name: action_totoken_decimals
+            data_type: FLOAT64
+          - name: action_totoken_name
+            data_type: STRING
+          - name: action_totoken_coinkey
+            data_type: STRING
+          - name: action_totoken_logouri
+            data_type: STRING
+          - name: action_totoken_priceusd
+            data_type: STRING
+          - name: action_fromchainid
+            data_type: FLOAT64
+          - name: action_tochainid
+            data_type: FLOAT64
+          - name: action_slippage
+            data_type: FLOAT64
+          - name: action_fromaddress
+            data_type: STRING
+          - name: action_toaddress
+            data_type: STRING
+          - name: estimate_tool
+            data_type: STRING
+          - name: estimate_approvaladdress
+            data_type: STRING
+          - name: estimate_toamountmin
+            data_type: STRING
+          - name: estimate_toamount
+            data_type: STRING
+          - name: estimate_fromamount
+            data_type: STRING
+          - name: estimate_feecosts
+            data_type: STRING
+          - name: estimate_gascosts
+            data_type: STRING
+          - name: estimate_executionduration
+            data_type: FLOAT64
+          - name: estimate_fromamountusd
+            data_type: STRING
+          - name: estimate_toamountusd
+            data_type: STRING
+          - name: route_id
+            data_type: STRING
+          - name: route_fromchainid
+            data_type: FLOAT64
+          - name: route_fromamountusd
+            data_type: STRING
+          - name: route_fromamount
+            data_type: STRING
+          - name: route_fromaddress
+            data_type: STRING
+          - name: route_tochainid
+            data_type: FLOAT64
+          - name: route_toamountusd
+            data_type: STRING
+          - name: route_toamount
+            data_type: STRING
+          - name: route_toamountmin
+            data_type: STRING
+          - name: route_toaddress
+            data_type: STRING
+          - name: route_gascostusd
+            data_type: STRING
+          - name: route_containsswitchchain
+            data_type: STRING
+          - name: route_tags
+            data_type: STRING
+          - name: route_fromtoken_address
+            data_type: STRING
+          - name: route_fromtoken_chainid
+            data_type: FLOAT64
+          - name: route_fromtoken_symbol
+            data_type: STRING
+          - name: route_fromtoken_decimals
+            data_type: FLOAT64
+          - name: route_fromtoken_name
+            data_type: STRING
+          - name: route_fromtoken_coinkey
+            data_type: STRING
+          - name: route_fromtoken_logouri
+            data_type: STRING
+          - name: route_fromtoken_priceusd
+            data_type: STRING
+          - name: route_totoken_address
+            data_type: STRING
+          - name: route_totoken_chainid
+            data_type: FLOAT64
+          - name: route_totoken_symbol
+            data_type: STRING
+          - name: route_totoken_decimals
+            data_type: FLOAT64
+          - name: route_totoken_name
+            data_type: STRING
+          - name: route_totoken_coinkey
+            data_type: STRING
+          - name: route_totoken_logouri
+            data_type: STRING
+          - name: route_totoken_priceusd
+            data_type: STRING
+          - name: route_insurance_state
+            data_type: STRING
+          - name: route_insurance_feeamountusd
+            data_type: STRING
+          - name: fee_name
+            data_type: STRING
+          - name: fee_description
+            data_type: STRING
+          - name: fee_amount
+            data_type: STRING
+          - name: fee_amountusd
+            data_type: STRING
+          - name: fee_percentage
+            data_type: STRING
+          - name: fee_included
+            data_type: STRING
+          - name: fee_token_address
+            data_type: STRING
+          - name: fee_token_chainid
+            data_type: FLOAT64
+          - name: fee_token_symbol
+            data_type: STRING
+          - name: fee_token_decimals
+            data_type: FLOAT64
+          - name: fee_token_name
+            data_type: STRING
+          - name: fee_token_coinkey
+            data_type: STRING
+          - name: fee_token_logouri
+            data_type: STRING
+          - name: fee_token_priceusd
+            data_type: STRING
+          - name: gas_type
+            data_type: STRING
+          - name: gas_price
+            data_type: STRING
+          - name: gas_estimate
+            data_type: STRING
+          - name: gas_limit
+            data_type: STRING
+          - name: gas_amount
+            data_type: STRING
+          - name: gas_amountusd
+            data_type: STRING
+          - name: gas_token_address
+            data_type: STRING
+          - name: gas_token_chainid
+            data_type: FLOAT64
+          - name: gas_token_symbol
+            data_type: STRING
+          - name: gas_token_decimals
+            data_type: FLOAT64
+          - name: gas_token_name
+            data_type: STRING
+          - name: gas_token_coinkey
+            data_type: STRING
+          - name: gas_token_logouri
+            data_type: STRING
+          - name: gas_token_priceusd
+            data_type: STRING
+          - name: upload_datetime
+            data_type: TIMESTAMP
+      - name: stage_connext_contracts
+        identifier: connext_contracts
+      - name: stage_stg_transfers_raw_usd
+        identifier: stg_transfers_raw_usd
