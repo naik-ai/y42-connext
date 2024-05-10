@@ -1,5 +1,7 @@
-{{ config(materialized = 'table') }}
-
+-- TODO
+-- Date filter on daily basis
+-- Buckets on daily basis: 1hr, 3hr,6hr,9hr,12hr,1D
+-- Metric for each bucket: net amount and % of amount netted
 
 WITH
 {% set time_buckets = [1, 3, 6, 9, 12, 24] %}
@@ -36,7 +38,7 @@ flow_{{ hours }}hr AS (
     ),
     net_flow AS (
         SELECT
-            
+            TIMESTAMP_TRUNC(i.date, DAY) AS date,
             i.chain,
             AVG(COALESCE(i.inflow, 0) - COALESCE(o.outflow, 0)) AS avg_net_amount_{{ hours }}hr,
             STDDEV(COALESCE(i.inflow, 0) - COALESCE(o.outflow, 0)) AS stddev_net_amount_{{ hours }}hr,
@@ -54,7 +56,7 @@ flow_{{ hours }}hr AS (
         GROUP BY TIMESTAMP_TRUNC(i.date, DAY), i.chain
     )
     SELECT
-        TIMESTAMP_TRUNC(i.date, DAY) AS date,
+        date,
         chain,
         avg_net_amount_{{ hours }}hr,
         stddev_net_amount_{{ hours }}hr,
