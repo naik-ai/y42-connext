@@ -1,5 +1,6 @@
 --     WHERE TIMESTAMP_TRUNC(rf.date, DAY) >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL {{ interval }} DAY))
 
+{{ config(materialized = 'table') }}
 
 WITH
 {% set time_buckets = [1, 3, 6, 9, 12, 24] %}
