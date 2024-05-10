@@ -1,3 +1,5 @@
+{{ config(materialized = 'table') }}
+
 -- TODO
 -- Date filter on daily basis
 -- Buckets on daily basis: 1hr, 3hr,6hr,9hr,12hr,1D
