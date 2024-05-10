@@ -5,6 +5,6 @@ orchestrations:
     config:
       enabled: true
       command: y42 build --select tag:dashboard
-      cron: 0/15 * 1/1 * *
+      cron: 0 */6 * * *
       y42:
         apiVersion: v1
