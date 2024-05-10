@@ -1,7 +1,5 @@
--- TODO
--- Date filter on daily basis
--- Buckets on daily basis: 1hr, 3hr,6hr,9hr,12hr,1D
--- Metric for each bucket: net amount and % of amount netted
+{{ config(materialized = 'table') }}
+
 
 WITH
 {% set time_buckets = [1, 3, 6, 9, 12, 24] %}
