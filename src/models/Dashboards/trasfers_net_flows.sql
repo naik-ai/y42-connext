@@ -54,7 +54,7 @@ flow_{{ hours }}hr AS (
         GROUP BY TIMESTAMP_TRUNC(i.date, DAY), i.chain
     )
     SELECT
-        date,
+        TIMESTAMP_TRUNC(i.date, DAY) AS date,
         chain,
         avg_net_amount_{{ hours }}hr,
         stddev_net_amount_{{ hours }}hr,
