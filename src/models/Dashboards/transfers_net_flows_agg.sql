@@ -44,7 +44,7 @@ flow_{{ hours }}hr AS (
 
         FROM inflow i
         FULL OUTER JOIN outflow o ON i.date = o.date AND i.chain = o.chain
-        GROUP BY TIMESTAMP_TRUNC(i.date, DAY), i.chain
+        GROUP BY  i.chain
     )
     SELECT
         chain,
