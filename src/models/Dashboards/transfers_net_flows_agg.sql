@@ -3,7 +3,7 @@
 {{ config(materialized = 'table') }}
 
 WITH
-{% set time_buckets = [1, 3, 6, 9, 12, 24] %}
+{% set time_buckets = [1, 3, 6, 12, 24] %}
 {% for hours in time_buckets %}
 flow_{{ hours }}hr AS (
     WITH raw AS (
