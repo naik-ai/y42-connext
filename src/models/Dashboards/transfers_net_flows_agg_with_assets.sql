@@ -1,4 +1,5 @@
 {{ config(materialized = 'table') }}
+
 WITH time_buckets AS (
     SELECT * FROM UNNEST([STRUCT(1 AS hours), STRUCT(3 AS hours), STRUCT(6 AS hours), STRUCT(12 AS hours), STRUCT(24 AS hours)])
 ),
@@ -70,5 +71,5 @@ SELECT
     MIN(inflow - outflow) AS min_net_amount,
     MAX(inflow - outflow) AS max_net_amount,
     AVG(100 - ABS((inflow - outflow) / NULLIF((inflow + outflow), 0)) * 100) AS avg_percent_netted
-GROUP BY chain, asset, interval_days, time_bucket
 FROM combined_flows
+GROUP BY chain, asset, interval_days, time_bucket
