@@ -995,142 +995,209 @@ sources:
             source_defined_primary_key: []
         columns:
           - name: asset_usd_price
+            description: ""
             data_type: FLOAT
           - name: backoff
+            description: ""
             data_type: INTEGER
           - name: bridged_amt
+            description: ""
             data_type: STRING
           - name: call_data
+            description: ""
             data_type: STRING
           - name: canonical_domain
+            description: ""
             data_type: STRING
           - name: canonical_id
+            description: ""
             data_type: STRING
           - name: decimals
+            description: ""
             data_type: FLOAT
           - name: delegate
+            description: ""
             data_type: STRING
           - name: destination_chain
+            description: ""
             data_type: STRING
           - name: destination_domain
+            description: ""
             data_type: STRING
           - name: destination_local_amount
+            description: ""
             data_type: STRING
           - name: destination_local_asset
+            description: ""
             data_type: STRING
           - name: destination_transacting_amount
+            description: ""
             data_type: STRING
           - name: destination_transacting_asset
+            description: ""
             data_type: STRING
           - name: error_message
+            description: ""
             data_type: STRING
           - name: error_status
+            description: ""
             data_type: STRING
           - name: execute_block_number
+            description: ""
             data_type: INTEGER
           - name: execute_caller
+            description: ""
             data_type: STRING
           - name: execute_gas_limit
+            description: ""
             data_type: STRING
           - name: execute_gas_price
+            description: ""
             data_type: STRING
           - name: execute_origin_sender
+            description: ""
             data_type: STRING
           - name: execute_simulation_from
+            description: ""
             data_type: STRING
           - name: execute_simulation_input
+            description: ""
             data_type: STRING
           - name: execute_simulation_network
+            description: ""
             data_type: STRING
           - name: execute_simulation_to
+            description: ""
             data_type: STRING
           - name: execute_timestamp
+            description: ""
             data_type: INTEGER
           - name: execute_transaction_hash
+            description: ""
             data_type: STRING
           - name: execute_tx_origin
+            description: ""
             data_type: STRING
           - name: id
+            description: ""
             data_type: INTEGER
           - name: message_hash
+            description: ""
             data_type: STRING
           - name: message_status
+            description: ""
             data_type: STRING
           - name: next_execution_timestamp
+            description: ""
             data_type: INTEGER
           - name: nonce
+            description: ""
             data_type: INTEGER
           - name: normalized_in
+            description: ""
             data_type: STRING
           - name: origin_bridged_amount
+            description: ""
             data_type: STRING
           - name: origin_bridged_asset
+            description: ""
             data_type: STRING
           - name: origin_chain
+            description: ""
             data_type: STRING
           - name: origin_domain
+            description: ""
             data_type: STRING
           - name: origin_sender
+            description: ""
             data_type: STRING
           - name: origin_transacting_amount
+            description: ""
             data_type: STRING
           - name: origin_transacting_asset
+            description: ""
             data_type: STRING
           - name: receive_local
+            description: ""
             data_type: BOOLEAN
           - name: reconcile_block_number
+            description: ""
             data_type: INTEGER
           - name: reconcile_caller
+            description: ""
             data_type: STRING
           - name: reconcile_gas_limit
+            description: ""
             data_type: STRING
           - name: reconcile_gas_price
+            description: ""
             data_type: STRING
           - name: reconcile_timestamp
+            description: ""
             data_type: INTEGER
           - name: reconcile_transaction_hash
+            description: ""
             data_type: STRING
           - name: reconcile_tx_origin
+            description: ""
             data_type: STRING
           - name: relayer_fees
+            description: ""
             data_type: STRING
           - name: router_fee
+            description: ""
             data_type: STRING
           - name: routers
+            description: ""
             data_type: STRING
           - name: slippage
+            description: ""
             data_type: FLOAT
           - name: status
+            description: ""
             data_type: STRING
           - name: to
+            description: ""
             data_type: STRING
           - name: transfer_id
+            description: ""
             data_type: STRING
           - name: ttr
+            description: ""
             data_type: INTEGER
           - name: ttv
+            description: ""
             data_type: INTEGER
           - name: update_time
+            description: ""
             data_type: TIMESTAMP
           - name: updated_slippage
+            description: ""
             data_type: FLOAT
           - name: usd_amount
+            description: ""
             data_type: FLOAT
           - name: xcall_block_number
+            description: ""
             data_type: INTEGER
           - name: xcall_caller
+            description: ""
             data_type: STRING
           - name: xcall_gas_limit
+            description: ""
             data_type: STRING
           - name: xcall_gas_price
+            description: ""
             data_type: STRING
           - name: xcall_timestamp
+            description: ""
             data_type: INTEGER
           - name: xcall_transaction_hash
+            description: ""
             data_type: STRING
           - name: xcall_tx_origin
+            description: ""
             data_type: STRING
-          - name: column
       - name: public_daily_transfer_metrics
         config:
           y42_table:
