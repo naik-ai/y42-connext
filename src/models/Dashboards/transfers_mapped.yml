@@ -257,23 +257,56 @@ models:
         description: ""
         data_type: STRING
       - name: origin_amount
+        description: ""
         data_type: FLOAT64
       - name: normalized_out
+        description: ""
         data_type: FLOAT64
       - name: destination_amount
+        description: ""
         data_type: FLOAT64
       - name: bridged_amount
+        description: ""
         data_type: FLOAT64
       - name: is_origin_asset_xerc20
+        description: ""
         data_type: BOOL
       - name: is_destination_asset_xerc20
+        description: ""
         data_type: BOOL
       - name: origin_asset_type
+        description: ""
         data_type: STRING
       - name: destination_asset_type
+        description: ""
         data_type: STRING
       - name: ETH_price
+        description: ""
         data_type: FLOAT64
+      - name: relayerfee_address1
+        data_type: STRING
+      - name: relayerfee_amount1
+        data_type: STRING
+      - name: relayerfee_address2
+        data_type: STRING
+      - name: relayerfee_amount2
+        data_type: STRING
+      - name: relayer_fee_token_1
+        data_type: STRING
+      - name: relayer_fee_token_1_decimals
+        data_type: FLOAT64
+      - name: relayer_amount_1
+        data_type: NUMERIC
+      - name: relayer_fee_token_2
+        data_type: STRING
+      - name: relayer_fee_token_2_decimals
+        data_type: FLOAT64
+      - name: relayer_amount_2
+        data_type: NUMERIC
+      - name: router
+        data_type: STRING
+      - name: router_name
+        data_type: STRING
     description: This model refines transfer data by mapping domain names, asset
       names, decimals, and caller types. It enriches the dataset by linking
       transfer details with corresponding domain and asset information,
