@@ -54,10 +54,10 @@ transfers_mapping AS (
 
 transfers_amounts AS (
     Select 
-    CAST(origin_transacting_amount AS NUMERIC) / POWER(10, origin_asset_decimals) as origin_amount,
-    CAST(destination_transacting_amount AS NUMERIC) * POWER(10, 18 - destination_asset_decimals) as normalized_out,
-    CAST(destination_transacting_amount AS NUMERIC) / POWER(10, destination_asset_decimals) as destination_amount,
-    CAST(bridged_amt AS NUMERIC) / POWER(10, decimals) as bridged_amount,
+    CAST(origin_transacting_amount AS FLOAT64) / POWER(10, origin_asset_decimals) as origin_amount,
+    CAST(destination_transacting_amount AS FLOAT64) * POWER(10, 18 - destination_asset_decimals) as normalized_out,
+    CAST(destination_transacting_amount AS FLOAT64) / POWER(10, destination_asset_decimals) as destination_amount,
+    CAST(bridged_amt AS FLOAT64) / POWER(10, decimals) as bridged_amount,
     * 
     from transfers_mapping
 ),
@@ -114,10 +114,10 @@ rf AS (
     t.*,
     tm.asset_name as relayer_fee_token_1,
     tm.asset_decimals as relayer_fee_token_1_decimals,
-    CAST(t.relayerfee_amount1 AS NUMERIC)/POWER(10, CAST(tm.asset_decimals AS NUMERIC)) relayer_amount_1,
+    CAST(t.relayerfee_amount1 AS FLOAT64)/POWER(10, CAST(tm.asset_decimals AS FLOAT64)) relayer_amount_1,
     tm2.asset_name as relayer_fee_token_2,
     tm2.asset_decimals as relayer_fee_token_2_decimals,
-    CAST(t.relayerfee_amount2  AS NUMERIC)/POWER(10, CAST(tm2.asset_decimals AS NUMERIC)) relayer_amount_2
+    CAST(t.relayerfee_amount2  AS FLOAT64)/POWER(10, CAST(tm2.asset_decimals AS FLOAT64)) relayer_amount_2
   
   FROM relayerfees t
   LEFT JOIN  {{ ref('token_mapping') }} tm ON t.relayerfee_address1 = tm.asset AND t.origin_domain = tm.domain
