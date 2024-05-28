@@ -1852,3 +1852,21 @@ sources:
             data_type: STRING
           - name: xcall_tx_origin
             data_type: STRING
+      - name: public_daily_swap_tvl
+        config:
+          y42_table:
+            import: daily_swap_tvl
+            columns:
+              - balances
+              - total_tvl
+              - total_vol
+              - domain
+              - total_fee
+              - pool_id
+              - day
+            group: public
+            supported_sync_modes:
+              - full_refresh
+              - incremental
+            default_cursor_field: []
+            source_defined_primary_key: []
