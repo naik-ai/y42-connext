@@ -5,3 +5,24 @@ models:
     config:
       tags:
         - snapshot
+    meta:
+      tier: tier 2
+    columns:
+      - name: asset_canonical_id
+        data_type: STRING
+      - name: asset_domain
+        data_type: STRING
+      - name: balance
+        data_type: FLOAT64
+      - name: fees_earned
+        data_type: FLOAT64
+      - name: locked
+        data_type: FLOAT64
+      - name: removed
+        data_type: FLOAT64
+      - name: router_address
+        data_type: STRING
+      - name: supplied
+        data_type: FLOAT64
+      - name: snapshot_time
+        data_type: TIMESTAMP
