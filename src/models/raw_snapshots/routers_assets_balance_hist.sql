@@ -1,20 +1,21 @@
--- models/snapshot_public_asset_balances.sql
 
-{{ config(materialized='incremental', unique_key='id') }}
 
-WITH data AS (
+
+{{ config(materialized='incremental', unique_key="snapshot_time || '-' || pool_id") }}
+
+WITH source_data AS (
     SELECT
-        *,
-        CURRENT_TIMESTAMP() AS snapshot_time
+        pool_id,
+        other_columns,
+        CURRENT_TIMESTAMP() AS snapshot_time  -- Captures the current UTC timestamp
     FROM {{ source('Cartographer', 'public_asset_balances') }}
 )
 
-SELECT * FROM data
-
+SELECT
+    *,
+    snapshot_time,
+    pool_id
+FROM source_data
 {% if is_incremental() %}
-
-  -- This condition allows dbt to only insert new snapshots every 15 minutes
-  -- Adjust the interval as needed for your specific requirements
-  WHERE snapshot_time >= (SELECT MAX(snapshot_time) FROM {{ this }}) + INTERVAL 15 MINUTE
-
+    WHERE source_timestamp > (SELECT MAX(snapshot_time) FROM {{ this }})
 {% endif %}
