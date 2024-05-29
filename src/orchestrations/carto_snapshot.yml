@@ -6,5 +6,3 @@ orchestrations:
       enabled: true
       command: y42 build --select tag:snapshot
       cron: 0/15 * 1/1 * *
-      y42:
-        apiVersion: v1

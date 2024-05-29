@@ -1,8 +1,0 @@
-version: 2
-
-orchestrations:
-  - name: router_pool_liquidity_dependencies
-    config:
-      enabled: true
-      command: y42 build --select +tag:liquidity
-      cron: 0/15 * 1/1 * *
