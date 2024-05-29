@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: routers_assets_balance_hist
+    config:
+      tags:
+        - snapshot
