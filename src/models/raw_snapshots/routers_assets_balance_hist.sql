@@ -1,7 +1,4 @@
-
-
-
-{{ config(materialized='incremental', unique_key="snapshot_time || '-' || pool_id") }}
+{{ config(materialized='incremental') }}
 
 WITH source_data AS (
     SELECT
@@ -17,5 +14,4 @@ SELECT
     pool_id
 FROM source_data
 {% if is_incremental() %}
-    WHERE source_timestamp > (SELECT MAX(snapshot_time) FROM {{ this }})
 {% endif %}
