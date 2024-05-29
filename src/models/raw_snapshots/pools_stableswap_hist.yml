@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: pools_stableswap_hist
+    meta:
+      asset_status: verified
+      tier: tier 2
+    config:
+      tags:
+        - snapshot
+    columns:
+      - name: admin_fee
+        data_type: STRING
+      - name: balances
+        data_type: STRING
+      - name: domain
+        data_type: STRING
+      - name: future_a
+        data_type: INT64
+      - name: future_a_time
+        data_type: INT64
+      - name: initial_a
+        data_type: INT64
+      - name: initial_a_time
+        data_type: INT64
+      - name: invariant
+        data_type: STRING
+      - name: is_active
+        data_type: BOOL
+      - name: key
+        data_type: STRING
+      - name: lp_token
+        data_type: STRING
+      - name: lp_token_supply
+        data_type: STRING
+      - name: pool_token_decimals
+        data_type: STRING
+      - name: pooled_tokens
+        data_type: STRING
+      - name: swap_fee
+        data_type: STRING
+      - name: token_precision_multipliers
+        data_type: STRING
+      - name: virtual_price
+        data_type: STRING
+      - name: snapshot_time
+        data_type: TIMESTAMP
