@@ -1,4 +1,4 @@
-{{ config(materialized='incremental') }}
+{{ config(materialized='incremental',     incremental_strategy='append') }}
 
 WITH source_data AS (
     SELECT
