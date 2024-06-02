@@ -10,5 +10,3 @@ WITH source_data AS (
 SELECT
     *
 FROM source_data
-{% if is_incremental() %}
-{% endif %}
