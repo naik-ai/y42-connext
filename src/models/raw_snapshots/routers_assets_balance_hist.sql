@@ -7,8 +7,7 @@ WITH source_data AS (
     FROM {{ source('Cartographer', 'public_asset_balances') }}
 )
 
-SELECT
-    *
+SELECT *
 FROM source_data
 {% if is_incremental() %}
 {% endif %}
