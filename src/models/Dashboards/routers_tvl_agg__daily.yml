@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: routers_tvl_agg__daily
+    meta:
+      tier: tier 2
+    config:
+      tags:
+        - snapshot
+    columns: []
