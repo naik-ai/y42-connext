@@ -12,6 +12,7 @@ models:
       tags:
         - liquidity
         - dashboard
+        - snapshot
     columns:
       - name: origin_domain_name
         description: ""

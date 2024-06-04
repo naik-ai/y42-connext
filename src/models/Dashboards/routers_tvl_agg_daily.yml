@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: routers_tvl_agg_daily
+    meta:
+      experts:
+        users:
+          - jay@naik.ai
+      tier: tier 2
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - snapshot
