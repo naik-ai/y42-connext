@@ -1,4 +1,5 @@
 {{ config(materialized='table') }}
+
 -- Metrics: TVL, APR, APY
 WITH
     chains_meta AS (
@@ -72,6 +73,7 @@ WITH
         ORDER BY
             1 DESC
     ),
+
     tx AS (
         SELECT
             JSON_EXTRACT_SCALAR (t.routers, '$[0]') AS router,
@@ -94,8 +96,7 @@ WITH
             COALESCE(tm.asset, t.destination_local_asset) AS asset,
             SUM(destination_amount * 0.0005) AS router_fee,
             SUM(destination_amount) AS destination_volume
-        FROM
-            `y42_connext_y42_dev.transfers_mapped` t
+        FROM tx t
             LEFT JOIN chains_meta cm ON t.destination_domain = cm.domainid
             LEFT JOIN tokens_meta tm ON (t.destination_local_asset = tm.local)
         GROUP BY
@@ -133,31 +134,31 @@ WITH
     -- Fill fees for all dates
     filled_fees AS (
         SELECT
-            ad.date,
-            ad.router,
-            ad.chain,
-            ad.asset,
+            COALESCE(ad.date, f.date) AS date,
+            COALESCE(ad.router, f.router) AS router,
+            COALESCE(ad.chain, f.chain) AS chain,
+            COALESCE(ad.asset, f.asset) AS asset,
             f.router_fee,
             f.destination_volume AS router_volume,
             SUM(COALESCE(f.router_fee, 0)) OVER (
                 PARTITION BY
-                    ad.router,
-                    ad.chain,
-                    ad.asset
+                    COALESCE(ad.router, f.router),
+                    COALESCE(ad.chain, f.chain),
+                    COALESCE(ad.asset, f.asset)
                 ORDER BY
-                    ad.date
+                    COALESCE(ad.date, f.date)
             ) AS total_fee_earned,
             SUM(COALESCE(f.destination_volume, 0)) OVER (
                 PARTITION BY
-                    ad.router,
-                    ad.chain,
-                    ad.asset
+                    COALESCE(ad.router, f.router),
+                    COALESCE(ad.chain, f.chain),
+                    COALESCE(ad.asset, f.asset)
                 ORDER BY
-                    ad.date
+                    COALESCE(ad.date, f.date)
             ) AS total_router_volume
         FROM
             all_dates ad
-            LEFT JOIN fees f ON ad.date = f.date
+            FULL OUTER JOIN fees f ON ad.date = f.date
             AND ad.router = f.router
             AND ad.chain = f.chain
             AND ad.asset = f.asset
@@ -165,31 +166,32 @@ WITH
     -- Fill routers TVL for all dates
     filled_routers_tvl AS (
         SELECT
-            ad.date,
-            ad.router,
-            ad.chain,
-            ad.asset,
+            COALESCE(ad.date, rt.date) AS date,
+            COALESCE(ad.router, rt.router) AS router,
+            COALESCE(ad.chain, rt.chain) AS chain,
+            COALESCE(ad.asset, rt.asset) AS asset,
             rt.amount AS amount,
             -- # Total locked: filling with previous non zero value
             COALESCE(
                 rt.locked,
                 LAST_VALUE (rt.locked IGNORE NULLS) OVER (
                     PARTITION BY
-                        ad.router,
-                        ad.chain,
-                        ad.asset
+                        COALESCE(ad.router, rt.router),
+                        COALESCE(ad.chain, rt.chain),
+                        COALESCE(ad.asset, rt.asset)
                     ORDER BY
-                        ad.date
+                        COALESCE(ad.date, rt.date)
                 )
             
             ) AS total_locked
         FROM
             all_dates ad
-            LEFT JOIN routers_tvl rt ON ad.date = rt.date
+            FULL OUTER JOIN routers_tvl rt ON ad.date = rt.date
             AND ad.router = rt.router
             AND ad.chain = rt.chain
             AND ad.asset = rt.asset
     ),
+
     router_bal_hist AS (
         SELECT
             date,
