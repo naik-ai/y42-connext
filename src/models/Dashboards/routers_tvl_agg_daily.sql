@@ -19,8 +19,9 @@ WITH
     ),
     assets AS (
         SELECT DISTINCT
+            da.domain,
             da.canonical_id,
-            da.decimal
+            da.adopted_decimal AS decimal
         FROM
             `mainnet-bigq.public.assets` da
     ),
@@ -73,21 +74,23 @@ WITH
         ORDER BY
             1 DESC
     ),
-
     tx AS (
         SELECT
             JSON_EXTRACT_SCALAR (t.routers, '$[0]') AS router,
             t.xcall_timestamp,
             t.destination_domain,
             t.destination_local_asset,
+            a.decimal,
             CAST(destination_transacting_amount AS FLOAT64) / POW (10, COALESCE(CAST(a.decimal AS INT64), 0)) AS destination_amount
         FROM
             `public.transfers` t
-            LEFT JOIN assets a ON (t.canonical_id = a.canonical_id)
+            LEFT JOIN assets a ON (
+                t.canonical_id = a.canonical_id
+                AND t.destination_domain = a.domain
+            )
         WHERE
             status = "CompletedFast"
     ),
-    
     fees AS (
         SELECT
             DATE_TRUNC (TIMESTAMP_SECONDS (xcall_timestamp), DAY) AS date,
@@ -96,7 +99,8 @@ WITH
             COALESCE(tm.asset, t.destination_local_asset) AS asset,
             SUM(destination_amount * 0.0005) AS router_fee,
             SUM(destination_amount) AS destination_volume
-        FROM tx t
+        FROM
+            tx t
             LEFT JOIN chains_meta cm ON t.destination_domain = cm.domainid
             LEFT JOIN tokens_meta tm ON (t.destination_local_asset = tm.local)
         GROUP BY
@@ -133,7 +137,6 @@ WITH
         FROM
             fees f
     ),
-
     -- Fill routers TVL for all dates
     cln_routers_tvl AS (
         SELECT
@@ -157,7 +160,6 @@ WITH
         FROM
             routers_tvl rt
     ),
-
     router_bal_hist AS (
         SELECT
             date,
@@ -237,7 +239,6 @@ WITH
         ORDER BY
             1 DESC
     ),
-
     date_range AS (
         SELECT
             router,
@@ -263,14 +264,10 @@ WITH
             CROSS JOIN UNNEST (
                 GENERATE_ARRAY (0, DATE_DIFF (max_date, min_date, DAY))
             ) AS seq
-        ),
-
+    ),
     clean_final AS (
         SELECT
-            DATE_TRUNC (
-                COALESCE(ad.date, f.date),
-                DAY
-            ) AS date,
+            DATE_TRUNC (COALESCE(ad.date, f.date), DAY) AS date,
             COALESCE(ad.router, f.router) AS router,
             COALESCE(r.name, f.router) AS router_name,
             COALESCE(ad.chain, f.chain) AS chain,
@@ -304,12 +301,11 @@ WITH
         FROM
             all_dates ad
             LEFT JOIN final f ON ad.date = f.date
-                AND LOWER(ad.router) = LOWER(f.router)
-                AND ad.chain = f.chain
-                AND ad.asset = f.asset
+            AND LOWER(ad.router) = LOWER(f.router)
+            AND ad.chain = f.chain
+            AND ad.asset = f.asset
             LEFT JOIN `mainnet-bigq.raw.dim_connext_routers_name` r ON LOWER(ad.router) = LOWER(r.router)
     ),
-
     pre_filled_clean_final AS (
         SELECT
             cf.date,
@@ -381,7 +377,9 @@ WITH
             dp.price * pcf.amount AS amount_usd,
             dp.price * pcf.total_locked AS total_locked_usd,
             dp.price * pcf.total_fee_earned AS total_fee_earned_usd,
-            dp.price * (COALESCE(pcf.total_locked, 0) + COALESCE(pcf.total_fee_earned, 0)) AS total_balance_usd
+            dp.price * (
+                COALESCE(pcf.total_locked, 0) + COALESCE(pcf.total_fee_earned, 0)
+            ) AS total_balance_usd
         FROM
             pre_filled_clean_final pcf
             LEFT JOIN daily_price dp ON pcf.date = dp.date
@@ -396,7 +394,7 @@ SELECT
     *
 FROM
     usd_data
--- WHERE
---     price IS NOT NULL
+    -- WHERE
+    --     price IS NOT NULL
 ORDER BY
     1 DESC
