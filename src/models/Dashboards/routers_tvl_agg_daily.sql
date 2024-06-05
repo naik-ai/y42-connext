@@ -301,7 +301,7 @@ WITH
             f.total_locked,
             f.rbh_total_locked,
             f.ctv_total_locked,
-            f.total_locked + f.total_fee_earned AS total_balance
+            COALESCE(f.total_locked, 0) + COALESCE(f.total_fee_earned, 0) AS total_balance
         FROM
             all_dates ad
             LEFT JOIN final f ON ad.date = f.date
