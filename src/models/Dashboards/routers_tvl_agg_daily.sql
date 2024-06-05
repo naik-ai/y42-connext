@@ -300,8 +300,7 @@ WITH
             f.amount,
             f.total_locked,
             f.rbh_total_locked,
-            f.ctv_total_locked,
-            COALESCE(f.total_locked, 0) + COALESCE(f.total_fee_earned, 0) AS total_balance
+            f.ctv_total_locked
         FROM
             all_dates ad
             LEFT JOIN final f ON ad.date = f.date
@@ -345,18 +344,7 @@ WITH
                         cf.date
                 )
             ) AS total_fee_earned,
-            cf.amount,
-            COALESCE(
-                cf.total_balance,
-                LAST_VALUE (cf.total_balance IGNORE NULLS) OVER (
-                    PARTITION BY
-                        cf.router,
-                        cf.chain,
-                        cf.asset
-                    ORDER BY
-                    cf.date
-                )
-            ) AS total_balance
+            cf.amount
         FROM
             clean_final cf
     ),
@@ -386,14 +374,14 @@ WITH
             pcf.total_locked,
             pcf.total_fee_earned,
             pcf.amount,
-            pcf.total_balance,
+            COALESCE(pcf.total_locked, 0) + COALESCE(pcf.total_fee_earned, 0) AS total_balance,
             -- USD values
             dp.price * pcf.router_fee AS router_fee_usd,
             dp.price * pcf.router_volume AS router_volume_usd,
             dp.price * pcf.amount AS amount_usd,
             dp.price * pcf.total_locked AS total_locked_usd,
             dp.price * pcf.total_fee_earned AS total_fee_earned_usd,
-            dp.price * pcf.total_balance AS total_balance_usd
+            dp.price * (COALESCE(pcf.total_locked, 0) + COALESCE(pcf.total_fee_earned, 0)) AS total_balance_usd
         FROM
             pre_filled_clean_final pcf
             LEFT JOIN daily_price dp ON pcf.date = dp.date
