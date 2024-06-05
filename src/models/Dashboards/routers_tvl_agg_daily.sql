@@ -105,91 +105,57 @@ WITH
             3,
             4
     ),
-    date_range AS (
-        SELECT
-            router,
-            chain,
-            asset,
-            MIN(date) AS min_date,
-            MAX(date) AS max_date
-        FROM
-            fees
-        GROUP BY
-            router,
-            chain,
-            asset
-    ),
-    all_dates AS (
-        SELECT
-            router,
-            chain,
-            asset,
-            DATE_ADD (min_date, INTERVAL seq DAY) AS date
-        FROM
-            date_range
-            CROSS JOIN UNNEST (
-                GENERATE_ARRAY (0, DATE_DIFF (max_date, min_date, DAY))
-            ) AS seq
-    ),
     -- Fill fees for all dates
-    filled_fees AS (
+    cln_fees AS (
         SELECT
-            COALESCE(ad.date, f.date) AS date,
-            COALESCE(ad.router, f.router) AS router,
-            COALESCE(ad.chain, f.chain) AS chain,
-            COALESCE(ad.asset, f.asset) AS asset,
+            f.date AS date,
+            f.router AS router,
+            f.chain AS chain,
+            f.asset AS asset,
             f.router_fee,
             f.destination_volume AS router_volume,
             SUM(COALESCE(f.router_fee, 0)) OVER (
                 PARTITION BY
-                    COALESCE(ad.router, f.router),
-                    COALESCE(ad.chain, f.chain),
-                    COALESCE(ad.asset, f.asset)
+                    f.router,
+                    f.chain,
+                    f.asset
                 ORDER BY
-                    COALESCE(ad.date, f.date)
+                    f.date
             ) AS total_fee_earned,
             SUM(COALESCE(f.destination_volume, 0)) OVER (
                 PARTITION BY
-                    COALESCE(ad.router, f.router),
-                    COALESCE(ad.chain, f.chain),
-                    COALESCE(ad.asset, f.asset)
+                    f.router,
+                    f.chain,
+                    f.asset
                 ORDER BY
-                    COALESCE(ad.date, f.date)
+                    f.date
             ) AS total_router_volume
         FROM
-            all_dates ad
-            FULL OUTER JOIN fees f ON ad.date = f.date
-            AND ad.router = f.router
-            AND ad.chain = f.chain
-            AND ad.asset = f.asset
+            fees f
     ),
+
     -- Fill routers TVL for all dates
-    filled_routers_tvl AS (
+    cln_routers_tvl AS (
         SELECT
-            COALESCE(ad.date, rt.date) AS date,
-            COALESCE(ad.router, rt.router) AS router,
-            COALESCE(ad.chain, rt.chain) AS chain,
-            COALESCE(ad.asset, rt.asset) AS asset,
+            rt.date AS date,
+            rt.router AS router,
+            rt.chain AS chain,
+            rt.asset AS asset,
             rt.amount AS amount,
             -- # Total locked: filling with previous non zero value
             COALESCE(
                 rt.locked,
                 LAST_VALUE (rt.locked IGNORE NULLS) OVER (
                     PARTITION BY
-                        COALESCE(ad.router, rt.router),
-                        COALESCE(ad.chain, rt.chain),
-                        COALESCE(ad.asset, rt.asset)
+                        rt.router,
+                        rt.chain,
+                        rt.asset
                     ORDER BY
-                        COALESCE(ad.date, rt.date)
+                        rt.date
                 )
-            
             ) AS total_locked
         FROM
-            all_dates ad
-            FULL OUTER JOIN routers_tvl rt ON ad.date = rt.date
-            AND ad.router = rt.router
-            AND ad.chain = rt.chain
-            AND ad.asset = rt.asset
+            routers_tvl rt
     ),
 
     router_bal_hist AS (
@@ -228,7 +194,7 @@ WITH
         WHERE
             rn = 1
     ),
-    combined_router_tvl_fee AS (
+    combined_cln_router_tvl_fee AS (
         -- combine filled fee + router_tvl
         SELECT
             COALESCE(frt.date, ff.date) AS date,
@@ -242,8 +208,8 @@ WITH
             frt.amount,
             frt.total_locked
         FROM
-            filled_fees ff
-            FULL OUTER JOIN filled_routers_tvl frt ON ff.date = frt.date
+            cln_fees ff
+            FULL OUTER JOIN cln_routers_tvl frt ON ff.date = frt.date
             AND ff.router = frt.router
             AND ff.chain = frt.chain
             AND ff.asset = frt.asset
@@ -263,7 +229,7 @@ WITH
             rbh.total_locked AS rbh_total_locked,
             ctv.total_locked AS ctv_total_locked
         FROM
-            combined_router_tvl_fee ctv
+            combined_cln_router_tvl_fee ctv
             FULL OUTER JOIN router_bal_hist rbh ON ctv.date = rbh.date
             AND ctv.router = rbh.router
             AND ctv.chain = rbh.chain
@@ -271,31 +237,62 @@ WITH
         ORDER BY
             1 DESC
     ),
+
+    date_range AS (
+        SELECT
+            router,
+            chain,
+            asset,
+            MIN(date) AS min_date,
+            MAX(date) AS max_date
+        FROM
+            final
+        GROUP BY
+            router,
+            chain,
+            asset
+    ),
+    all_dates AS (
+        SELECT
+            router,
+            chain,
+            asset,
+            DATE_ADD (min_date, INTERVAL seq DAY) AS date
+        FROM
+            date_range
+            CROSS JOIN UNNEST (
+                GENERATE_ARRAY (0, DATE_DIFF (max_date, min_date, DAY))
+            ) AS seq
+        ),
+
     clean_final AS (
         SELECT
-            DATE_TRUNC (f.date, DAY) AS date,
-            f.router,
+            DATE_TRUNC (
+                COALESCE(ad.date, f.date),
+                DAY
+            ) AS date,
+            COALESCE(ad.router, f.router) AS router,
             COALESCE(r.name, f.router) AS router_name,
-            f.chain,
-            f.asset,
+            COALESCE(ad.chain, f.chain) AS chain,
+            COALESCE(ad.asset, f.asset) AS asset,
             -- asset group
             CASE
-                WHEN f.asset = 'ETH' THEN 'WETH'
-                WHEN f.asset = 'NEXT' THEN 'NEXT'
-                WHEN STARTS_WITH (f.asset, 'next') THEN REGEXP_REPLACE (f.asset, '^next', '')
-                ELSE f.asset
+                WHEN COALESCE(ad.asset, f.asset) = 'ETH' THEN 'WETH'
+                WHEN COALESCE(ad.asset, f.asset) = 'NEXT' THEN 'NEXT'
+                WHEN STARTS_WITH (COALESCE(ad.asset, f.asset), 'next') THEN REGEXP_REPLACE (COALESCE(ad.asset, f.asset), '^next', '')
+                ELSE COALESCE(ad.asset, f.asset)
             END AS asset_group,
             CASE
-                WHEN f.asset = 'ETH' THEN 'WETH'
-                WHEN f.asset = 'NEXT' THEN 'NEXT'
-                WHEN STARTS_WITH (f.asset, 'next') THEN REGEXP_REPLACE (f.asset, '^next', '')
-                WHEN f.asset = 'alUSD' THEN 'USDT'
-                WHEN f.asset = 'nextALUSD' THEN 'USDT'
-                WHEN f.asset = 'instETH' THEN 'WETH'
-                WHEN f.asset = 'ezETH' THEN 'WETH'
-                WHEN f.asset = 'alETH' THEN 'WETH'
-                WHEN f.asset = 'nextalETH' THEN 'WETH'
-                ELSE f.asset
+                WHEN COALESCE(ad.asset, f.asset) = 'ETH' THEN 'WETH'
+                WHEN COALESCE(ad.asset, f.asset) = 'NEXT' THEN 'NEXT'
+                WHEN STARTS_WITH (COALESCE(ad.asset, f.asset), 'next') THEN REGEXP_REPLACE (COALESCE(ad.asset, f.asset), '^next', '')
+                WHEN COALESCE(ad.asset, f.asset) = 'alUSD' THEN 'USDT'
+                WHEN COALESCE(ad.asset, f.asset) = 'nextALUSD' THEN 'USDT'
+                WHEN COALESCE(ad.asset, f.asset) = 'instETH' THEN 'WETH'
+                WHEN COALESCE(ad.asset, f.asset) = 'ezETH' THEN 'WETH'
+                WHEN COALESCE(ad.asset, f.asset) = 'alETH' THEN 'WETH'
+                WHEN COALESCE(ad.asset, f.asset) = 'nextalETH' THEN 'WETH'
+                ELSE COALESCE(ad.asset, f.asset)
             END AS price_group,
             f.router_fee,
             f.router_volume,
@@ -306,8 +303,62 @@ WITH
             f.ctv_total_locked,
             f.total_locked + f.total_fee_earned AS total_balance
         FROM
-            final f
-            LEFT JOIN `mainnet-bigq.raw.dim_connext_routers_name` r ON LOWER(f.router) = LOWER(r.router)
+            all_dates ad
+            LEFT JOIN final f ON ad.date = f.date
+                AND LOWER(ad.router) = LOWER(f.router)
+                AND ad.chain = f.chain
+                AND ad.asset = f.asset
+            LEFT JOIN `mainnet-bigq.raw.dim_connext_routers_name` r ON LOWER(ad.router) = LOWER(r.router)
+    ),
+
+    pre_filled_clean_final AS (
+        SELECT
+            cf.date,
+            cf.router,
+            cf.router_name,
+            cf.chain,
+            cf.asset_group,
+            cf.asset,
+            cf.price_group,
+            cf.router_fee,
+            cf.router_volume,
+            -- for total locked and fee pull in previous  none null value
+            COALESCE(
+                cf.total_locked,
+                LAST_VALUE (cf.total_locked IGNORE NULLS) OVER (
+                    PARTITION BY
+                        cf.router,
+                        cf.chain,
+                        cf.asset
+                    ORDER BY
+                        cf.date
+                )
+            ) AS total_locked,
+            COALESCE(
+                cf.total_fee_earned,
+                LAST_VALUE (cf.total_fee_earned IGNORE NULLS) OVER (
+                    PARTITION BY
+                        cf.router,
+                        cf.chain,
+                        cf.asset
+                    ORDER BY
+                        cf.date
+                )
+            ) AS total_fee_earned,
+            cf.amount,
+            COALESCE(
+                cf.total_balance,
+                LAST_VALUE (cf.total_balance IGNORE NULLS) OVER (
+                    PARTITION BY
+                        cf.router,
+                        cf.chain,
+                        cf.asset
+                    ORDER BY
+                    cf.date
+                )
+            ) AS total_balance
+        FROM
+            clean_final cf
     ),
     -- adding daily pricing to final
     daily_price AS (
@@ -323,30 +374,30 @@ WITH
     ),
     usd_data AS (
         SELECT
-            cf.date,
-            cf.router,
-            cf.router_name,
-            cf.chain,
-            cf.asset_group,
-            cf.asset,
+            pcf.date,
+            pcf.router,
+            pcf.router_name,
+            pcf.chain,
+            pcf.asset_group,
+            pcf.asset,
             dp.price,
-            cf.router_fee,
-            cf.router_volume,
-            cf.total_locked,
-            cf.total_fee_earned,
-            cf.amount,
-            cf.total_balance,
+            pcf.router_fee,
+            pcf.router_volume,
+            pcf.total_locked,
+            pcf.total_fee_earned,
+            pcf.amount,
+            pcf.total_balance,
             -- USD values
-            dp.price * cf.router_fee AS router_fee_usd,
-            dp.price * cf.router_volume AS router_volume_usd,
-            dp.price * cf.amount AS amount_usd,
-            dp.price * cf.total_locked AS total_locked_usd,
-            dp.price * cf.total_fee_earned AS total_fee_earned_usd,
-            dp.price * cf.total_balance AS total_balance_usd
+            dp.price * pcf.router_fee AS router_fee_usd,
+            dp.price * pcf.router_volume AS router_volume_usd,
+            dp.price * pcf.amount AS amount_usd,
+            dp.price * pcf.total_locked AS total_locked_usd,
+            dp.price * pcf.total_fee_earned AS total_fee_earned_usd,
+            dp.price * pcf.total_balance AS total_balance_usd
         FROM
-            clean_final cf
-            LEFT JOIN daily_price dp ON cf.date = dp.date
-            AND cf.price_group = dp.asset
+            pre_filled_clean_final pcf
+            LEFT JOIN daily_price dp ON pcf.date = dp.date
+            AND pcf.price_group = dp.asset
         ORDER BY
             1,
             2,
@@ -357,7 +408,7 @@ SELECT
     *
 FROM
     usd_data
-WHERE
-    price IS NOT NULL
+-- WHERE
+--     price IS NOT NULL
 ORDER BY
     1 DESC
