@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: router_tvl_liquidity_under_utilizations__hourly
+    meta:
+      tier: tier 2
+    config:
+      tags:
+        - daily

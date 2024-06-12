@@ -1,0 +1,8 @@
+version: 2
+
+orchestrations:
+  - name: Daily_router_utilization_metrics
+    config:
+      enabled: true
+      command: y42 build --select +tag:daily
+      cron: 0 1 1/1 * *
