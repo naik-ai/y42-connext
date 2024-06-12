@@ -1,8 +1,8 @@
-{{
-    config(
-        materialized='incremental'
-        unique_key='date || router || chain || asset'
-    )
+{{ 
+  config(
+    materialized='incremental',
+    unique_key='date || router || chain || asset'  -- Concatenation for uniqueness across multiple fields
+  )
 }}
 
 WITH
