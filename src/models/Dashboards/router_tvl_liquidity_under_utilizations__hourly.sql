@@ -1,9 +1,4 @@
-{{ 
-  config(
-    materialized='incremental',
-    unique_key='date || router || chain || asset'  -- Concatenation for uniqueness across multiple fields
-  )
-}}
+{{ config(materialized='incremental', unique_key='date || router || chain || asset') }}
 
 WITH
     chains_meta AS (
