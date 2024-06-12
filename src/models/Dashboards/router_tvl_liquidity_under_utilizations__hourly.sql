@@ -1,5 +1,3 @@
-{{ config(materialized='incremental', unique_key='date || router || chain || asset') }}
-
 WITH
     chains_meta AS (
         SELECT DISTINCT
@@ -41,12 +39,7 @@ WITH
             LEFT JOIN assets a ON (
                 t.canonical_id = a.canonical_id
                 AND t.destination_domain = a.domain
-            ) 
-        {% if is_incremental() %}
-        WHERE TIMESTAMP_SECONDS (t.xcall_timestamp) >= (SELECT COALESCE(MAX(TIMESTAMP_SECONDS (t.xcall_timestamp)), '2020-01-01') FROM {{ this }})
-        {% endif %}
-        
-        -- TODO Remove Filter Later
+            ) -- TODO Remove Filter Later
         -- WHERE
         --     t.destination_local_asset = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
         --     AND t.destination_domain = "6648936"
@@ -142,10 +135,6 @@ WITH
             `mainnet-bigq.public.router_liquidity_events` r
             LEFT JOIN chains_meta cm ON r.domain = cm.domainid
             LEFT JOIN tokens_meta tm ON (r.asset = tm.local)
-        
-        {% if is_incremental() %}
-        WHERE TIMESTAMP_SECONDS(r.timestamp) >= (SELECT COALESCE(MAX(TIMESTAMP_SECONDS (r.timestamp)), '2020-01-01') FROM {{ this }})
-        {% endif %}
         -- WHERE
         --     r.domain = "6648936"
         --     AND r.asset = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
@@ -377,7 +366,7 @@ WITH
     -- adding daily pricing to final
     daily_price AS (
         SELECT
-            DATE_TRUNC (CAST(p.date AS TIMESTAMP), DAY) AS date,
+            DATE_TRUNC (CAST(p.date AS TIMESTAMP), HOUR) AS date,
             p.symbol AS asset,
             AVG(p.average_price) AS price
         FROM
@@ -421,7 +410,7 @@ WITH
             ) AS total_balance_usd
         FROM
             pre_filled_clean_final pcf
-            LEFT JOIN daily_price dp ON DATE_TRUNC(pcf.date, DAY) = dp.date
+            LEFT JOIN daily_price dp ON pcf.date = dp.date
             AND pcf.price_group = dp.asset
         ORDER BY
             1,
