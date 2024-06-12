@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH
     chains_meta AS (
         SELECT DISTINCT
