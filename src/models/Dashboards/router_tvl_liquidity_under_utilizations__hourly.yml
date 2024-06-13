@@ -6,4 +6,4 @@ models:
       tier: tier 2
     config:
       tags:
-        - daily
+        - snapshot
