@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: all_cross_chain_bridges_netflow__hourly
+    meta:
+      experts:
+        users:
+          - jay@naik.ai
+      tier: tier 2
+    config:
+      y42:
+        apiVersion: v1
+      tags:
+        - daily
