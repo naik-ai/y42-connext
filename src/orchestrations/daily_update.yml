@@ -1,0 +1,10 @@
+version: 2
+
+orchestrations:
+  - name: daily_update
+    config:
+      enabled: true
+      command: y42 build --select +tag:daily
+      cron: 0 12 1/1 * *
+      y42:
+        apiVersion: v1
