@@ -1,4 +1,4 @@
---fix pricing
+{# --fix pricing
 WITH router_mapping AS (
 SELECT 
     COALESCE(tm.domain_name, rwb.`asset_domain`) AS destination_domain_name,
@@ -101,4 +101,4 @@ SELECT * FROM router_uptime ORDER BY balance_usd DESC
 /*
 LEFT JOIN 'github_parser_chains') }} AS dm ON rwb.`asset_domain` = dm.`domainid`
 LEFT JOIN 'github_parser_tokens') }} AS tam ON rwb.`adopted` = tam.`assetid` AND rwb.`asset_domain` = tam.`domainid`
-*/
+*/ #}
